@@ -5,7 +5,7 @@ class Database
 
 	}
 	
-    /**
+	/**
 	\brief Processes query and returns data immediately without error hanling (thread blocking operation!)
 	*/
 	void QueryNoStrictSync(string databaseName, string queryText)
@@ -13,7 +13,7 @@ class Database
 		RestContext restContext = GetRestApi().GetRestContext("localhost:" + m_databaseOptions.databaseServerPort.ToString());
 		restContext.POST_now("/" + databaseName + "/queryNoStrict", queryText);
 	}
-    
+	
 	/**
 	\brief Processes query and returns data immediately (thread blocking operation!)
 	*/

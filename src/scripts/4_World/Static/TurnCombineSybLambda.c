@@ -1,9 +1,9 @@
 modded class TurnCombineSybLambda
 {
-    override void OnSuccess (EntityAI new_item)
-    {
-        super.OnSuccess(new_item);
-        
+	override void OnSuccess (EntityAI new_item)
+	{
+		super.OnSuccess(new_item);
+		
 		ItemBase itemTarget = ItemBase.Cast(new_item);
 		if (!itemTarget) return;
 		
@@ -13,5 +13,5 @@ modded class TurnCombineSybLambda
 		
 		m_ampouleSource.AddQuantity(-1 * transitQuantity, true);
 		itemTarget.AddQuantity(transitQuantity);
-    }
+	}
 };

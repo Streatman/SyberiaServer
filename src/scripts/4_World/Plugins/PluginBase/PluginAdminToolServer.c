@@ -8,7 +8,7 @@ modded class PluginAdminTool
 	
 	override void OnInit()
 	{
-        super.OnInit();
+		super.OnInit();
 		
 		string path = "$profile:Syberia\\AdminToolOptions.json";
 		if (FileExist(path))
@@ -30,7 +30,7 @@ modded class PluginAdminTool
 	}
 	
 	override void RequestOpen( ParamsReadContext ctx, PlayerIdentity sender )
-    { 
+	{ 
 		if (sender && IsPlayerAdmin(sender))
 		{
 			ref PluginAdminTool_OpenContext context = new PluginAdminTool_OpenContext;
@@ -58,11 +58,11 @@ modded class PluginAdminTool
 	}
 	
 	override void PlayerInfo( ParamsReadContext ctx, PlayerIdentity sender )
-    {
+	{
 		if (sender && IsPlayerAdmin(sender))
 		{
 			Param1< string > serverData;
-        	if ( !ctx.Read( serverData ) ) return;
+			if ( !ctx.Read( serverData ) ) return;
 			
 			PlayerBase player = GetPlayerByGUID(serverData.param1);
 			if (player && !player.IsGhostBody())
@@ -76,11 +76,11 @@ modded class PluginAdminTool
 	}
 	
 	override void PlayerUpdate( ParamsReadContext ctx, PlayerIdentity sender )
-    { 
+	{ 
 		if (sender && IsPlayerAdmin(sender))
 		{
 			Param3< string, string, float > serverData;
-        	if ( !ctx.Read( serverData ) ) return;
+			if ( !ctx.Read( serverData ) ) return;
 			
 			PlayerBase player = GetPlayerByGUID(serverData.param1);
 			if (player && !player.IsGhostBody())
@@ -101,7 +101,7 @@ modded class PluginAdminTool
 		if (sender && IsPlayerAdmin(sender))
 		{
 			Param1< ref PluginAdminTool_SpawnItemContext > serverData;
-        	if ( !ctx.Read( serverData ) ) return;
+			if ( !ctx.Read( serverData ) ) return;
 			ref PluginAdminTool_SpawnItemContext context = serverData.param1;
 			
 			PlayerBase player = GetPlayerByGUID(sender.GetId());
@@ -239,7 +239,7 @@ modded class PluginAdminTool
 					
 					string name = player.m_charProfile.m_name;
 					ref PluginSyberiaOptions_GroupFaction group = GetSyberiaOptions().FindGroupByMember(player.m_charProfile.m_id);
-		        	if (group)
+					if (group)
 					{
 						name = name + " [" + group.m_displayName + "]";
 					}
@@ -281,7 +281,7 @@ modded class PluginAdminTool
 			if (player)
 			{
 				Param2< vector, int > serverData;
-	        	if ( !ctx.Read( serverData ) ) return;
+				if ( !ctx.Read( serverData ) ) return;
 
 				TeleportFnc(player, serverData.param1, serverData.param2);				
 				UpdateMap(null, sender);
@@ -364,7 +364,7 @@ modded class PluginAdminTool
 			if (player)
 			{
 				Param2< bool, vector > serverData;
-	        	if ( !ctx.Read( serverData ) ) return;
+				if ( !ctx.Read( serverData ) ) return;
 				player.m_freeCamMode = serverData.param1;
 				
 				SetVelocity(player, "0 0 0");
@@ -392,7 +392,7 @@ modded class PluginAdminTool
 			if (player)
 			{
 				Param3< bool, bool, bool > serverData;
-	        	if ( !ctx.Read( serverData ) ) return;
+				if ( !ctx.Read( serverData ) ) return;
 				
 				bool synchPlayers = serverData.param1;
 				bool synchBodies = serverData.param2;
@@ -449,7 +449,7 @@ modded class PluginAdminTool
 		if (sender && IsPlayerAdmin(sender))
 		{
 			Param1< string > serverData;
-        	if ( !ctx.Read( serverData ) ) return;
+			if ( !ctx.Read( serverData ) ) return;
 			
 			PlayerBase player = GetPlayerByGUID(serverData.param1);
 			if (player)
@@ -474,7 +474,7 @@ modded class PluginAdminTool
 		if (sender && IsPlayerAdmin(sender))
 		{
 			Param1< string > serverData;
-        	if ( !ctx.Read( serverData ) ) return;
+			if ( !ctx.Read( serverData ) ) return;
 			
 			PlayerBase player = GetPlayerByGUID(serverData.param1);
 			if (player && player.GetIdentity())
@@ -488,7 +488,7 @@ modded class PluginAdminTool
 					LogAdminAction(sender, "Kick player: UID = " + player.GetIdentity().GetId());	
 				}
 				
-                GetGame().RemoveFromReconnectCache(player.GetIdentity().GetId());
+				GetGame().RemoveFromReconnectCache(player.GetIdentity().GetId());
 				GetGame().DisconnectPlayer(player.GetIdentity(), player.GetIdentity().GetId());
 			}
 		}
@@ -499,7 +499,7 @@ modded class PluginAdminTool
 		if (sender && IsPlayerAdmin(sender))
 		{
 			Param1< string > serverData;
-        	if ( !ctx.Read( serverData ) ) return;
+			if ( !ctx.Read( serverData ) ) return;
 			
 			PlayerBase me = GetPlayerByIdentity(sender);
 			PlayerBase other = GetPlayerByGUID(serverData.param1);
@@ -524,7 +524,7 @@ modded class PluginAdminTool
 		if (sender && IsPlayerAdmin(sender))
 		{
 			Param1< string > serverData;
-        	if ( !ctx.Read( serverData ) ) return;
+			if ( !ctx.Read( serverData ) ) return;
 			
 			PlayerBase me = GetPlayerByIdentity(sender);
 			PlayerBase other = GetPlayerByGUID(serverData.param1);
@@ -549,7 +549,7 @@ modded class PluginAdminTool
 		if (sender && IsPlayerAdmin(sender))
 		{
 			Param2< string, string > serverData;
-        	if ( !ctx.Read( serverData ) ) return;
+			if ( !ctx.Read( serverData ) ) return;
 			
 			PlayerBase other = GetPlayerByGUID(serverData.param1);
 			if (other && other.GetIdentity())
@@ -612,37 +612,37 @@ modded class PluginAdminTool
 		}
 		else if (statName == "KnifeWounds") player.GetSybStats().m_knifeHits = (int)value;
 		else if (statName == "BulletWounds") player.GetSybStats().m_bulletHits = (int)value;
-        else if (statName == "Hematomas") player.GetSybStats().m_hematomaHits = (int)value;
-        else if (statName == "Viscera") player.GetSybStats().m_visceraHit = (value > 0.5);
-        else if (statName == "Sepsis") player.GetSybStats().m_sepsis = (int)value;
-        else if (statName == "Concussion") player.GetSybStats().m_concussionHit = (value > 0.5);
-        else if (statName == "Hemostasis") 
+		else if (statName == "Hematomas") player.GetSybStats().m_hematomaHits = (int)value;
+		else if (statName == "Viscera") player.GetSybStats().m_visceraHit = (value > 0.5);
+		else if (statName == "Sepsis") player.GetSybStats().m_sepsis = (int)value;
+		else if (statName == "Concussion") player.GetSybStats().m_concussionHit = (value > 0.5);
+		else if (statName == "Hemostasis") 
 		{
 			player.GetSybStats().m_bloodHemostaticEffect = (value > 0.5);
 			if (player.GetSybStats().m_bloodHemostaticEffect) player.m_bloodHemostaticTimer = 300;
 		}
-        else if (statName == "Hemopoesis")
+		else if (statName == "Hemopoesis")
 		{
 			player.GetSybStats().m_hematopoiesisEffect = (value > 0.5);
 			if (player.GetSybStats().m_hematopoiesisEffect) player.m_hematopoiesisTimer = 300;
 		}
-        else if (statName == "Salve") 
+		else if (statName == "Salve") 
 		{
 			player.GetSybStats().m_salveEffect = (value > 0.5);
 			if (player.GetSybStats().m_salveEffect) player.m_salveEffectTimer = 300;
 		}
-        else if (statName == "Pain") 
+		else if (statName == "Pain") 
 		{
 			int ival = (int)value;
 			if (ival == 0) player.GetSybStats().m_painLevel = 0;
 			else player.GetBleedingManagerServer().SetPainLevel(ival);
 		}
-        else if (statName == "Painkiller") 
+		else if (statName == "Painkiller") 
 		{
 			player.GetSybStats().m_painkillerEffect = (int)value;
 			if (player.GetSybStats().m_painkillerEffect > 0) player.m_painkillerTime = 300;
 		}
-        else if (statName == "VirusZ") 
+		else if (statName == "VirusZ") 
 		{
 			player.GetSybStats().m_zombieVirus = (int)value;
 			if (player.GetSybStats().m_zombieVirus <= 1) {
@@ -655,19 +655,19 @@ modded class PluginAdminTool
 				player.m_zvirusTimer = GetSyberiaConfig().m_zvirusStage2TimeSec;
 			}
 		}
-        else if (statName == "Influenza") player.GetSybStats().m_influenzaLevel = (int)value;
-        else if (statName == "Antibiotics") player.GetSybStats().m_antibioticsLevel = (int)value;
-        else if (statName == "StomatchPoison") 
+		else if (statName == "Influenza") player.GetSybStats().m_influenzaLevel = (int)value;
+		else if (statName == "Antibiotics") player.GetSybStats().m_antibioticsLevel = (int)value;
+		else if (statName == "StomatchPoison") 
 		{
 			player.GetSybStats().m_stomatchpoisonLevel = (int)value;
 			if (player.GetSybStats().m_stomatchpoisonLevel > 0) player.m_stomatchpoisonTimer = 300;
 		}
-        else if (statName == "StomatchHeal") 
+		else if (statName == "StomatchHeal") 
 		{
 			player.GetSybStats().m_stomatchhealLevel = (int)value;
 			if (player.GetSybStats().m_stomatchhealLevel > 0) player.m_stomatchhealTimer = 300;
 		}
-        else if (statName == "Adrenalin") 
+		else if (statName == "Adrenalin") 
 		{
 			player.GetSybStats().m_adrenalinEffect = (int)value;
 			if (player.GetSybStats().m_adrenalinEffect > 0) player.m_adrenalinEffectTimer = 300;
@@ -677,7 +677,7 @@ modded class PluginAdminTool
 			player.GetSybStats().m_radioprotectionLevel = (int)value;
 			if (player.GetSybStats().m_radioprotectionLevel > 0) player.m_radioprotectionTimer = 300;
 		}
-        else if (statName == "Overdose") player.m_overdosedValue = value;		
+		else if (statName == "Overdose") player.m_overdosedValue = value;		
 		else if (statName == "Immunity") profile.m_skills.SetSkillValue(SyberiaSkillType.SYBSKILL_IMMUNITY, value);
 		else if (statName == "Athletics") profile.m_skills.SetSkillValue(SyberiaSkillType.SYBSKILL_ATHLETICS, value);
 		else if (statName == "Strength") profile.m_skills.SetSkillValue(SyberiaSkillType.SYBSKILL_STRENGTH, value);
@@ -714,7 +714,7 @@ modded class PluginAdminTool
 		{
 			playerContext.m_name = profile.m_name;
 			ref PluginSyberiaOptions_GroupFaction group = GetSyberiaOptions().FindGroupByMember(profile.m_id);
-        	if (group)
+			if (group)
 			{
 				playerContext.m_group = group.m_displayName;
 			}

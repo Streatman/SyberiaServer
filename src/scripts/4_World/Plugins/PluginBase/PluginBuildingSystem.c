@@ -33,14 +33,14 @@ class PluginBuildingSystem extends PluginBase
 		
 		// Find house of livespace
 		House house = null;
-        House tempObject = null;
+		House tempObject = null;
 		string houseClassName = values.Get("hclass");
 		vector housePosition = values.Get("hpos").ToVector();
 		array<Object> objects = new array<Object>;
 		GetGame().GetObjectsAtPosition3D(housePosition, 0.1, objects, null);
 		for (int i = 0; i < objects.Count(); i++)
 		{
-            tempObject = House.Cast(objects.Get(i));
+			tempObject = House.Cast(objects.Get(i));
 			if (tempObject != null && tempObject.GetType() == houseClassName)
 			{
 				house = tempObject;

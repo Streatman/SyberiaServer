@@ -117,47 +117,47 @@ modded class PlayerBase
 	override void OnStoreSave( ParamsWriteContext ctx )
 	{
 		super.OnStoreSave(ctx);
-        
-        // VER 0.1
-        ctx.Write( SYBERIA_B10_VERSION );
-        ctx.Write( m_sleepingValue );
-        ctx.Write( m_sleepingBoostTimer );
-        ctx.Write( m_sleepingBoostValue );
-        ctx.Write( m_sybstats.m_bulletHits );
-        ctx.Write( m_sybstats.m_knifeHits );
-        ctx.Write( m_sybstats.m_hematomaHits );
-        ctx.Write( m_sybstats.m_visceraHit );
-        ctx.Write( m_sybstats.m_concussionHit );
-        ctx.Write( m_sybstats.m_painLevel );
-        ctx.Write( m_painTimer );
-        ctx.Write( m_hematomaRegenTimer );
-        ctx.Write( m_cuthitRegenTimer );
-        ctx.Write( m_sybstats.m_painkillerEffect );
-        ctx.Write( m_painkillerTime );
-        ctx.Write( m_sybstats.m_stomatchpoisonLevel );
+		
+		// VER 0.1
+		ctx.Write( SYBERIA_B10_VERSION );
+		ctx.Write( m_sleepingValue );
+		ctx.Write( m_sleepingBoostTimer );
+		ctx.Write( m_sleepingBoostValue );
+		ctx.Write( m_sybstats.m_bulletHits );
+		ctx.Write( m_sybstats.m_knifeHits );
+		ctx.Write( m_sybstats.m_hematomaHits );
+		ctx.Write( m_sybstats.m_visceraHit );
+		ctx.Write( m_sybstats.m_concussionHit );
+		ctx.Write( m_sybstats.m_painLevel );
+		ctx.Write( m_painTimer );
+		ctx.Write( m_hematomaRegenTimer );
+		ctx.Write( m_cuthitRegenTimer );
+		ctx.Write( m_sybstats.m_painkillerEffect );
+		ctx.Write( m_painkillerTime );
+		ctx.Write( m_sybstats.m_stomatchpoisonLevel );
 		ctx.Write( m_sybstats.m_stomatchhealLevel );
-        ctx.Write( m_stomatchhealTimer );
-        ctx.Write( m_hemologicShock );
-        ctx.Write( m_sybstats.m_sepsis );
-        ctx.Write( m_sepsisTime );
-        ctx.Write( m_sybstats.m_zombieVirus );
-        ctx.Write( m_zvirusTimer );		
-        ctx.Write( m_sybstats.m_bulletBandage1 );
-        ctx.Write( m_sybstats.m_bulletBandage2 );
-        ctx.Write( m_sybstats.m_knifeBandage1 );
-        ctx.Write( m_sybstats.m_knifeBandage2 );
-        ctx.Write( m_bullethitRegenTimer );
-        ctx.Write( m_knifehitRegenTimer );
-        ctx.Write( m_concussionRegenTimer );
-        ctx.Write( m_sybstats.m_bloodHemostaticEffect );
-        ctx.Write( m_bloodHemostaticTimer );		
-        ctx.Write( m_sybstats.m_hematopoiesisEffect );		
-        ctx.Write( m_hematopoiesisTimer );
-        ctx.Write( m_sybstats.m_salveEffect );
-        ctx.Write( m_salveEffectTimer );		
-        ctx.Write( m_sybstats.m_adrenalinEffect );
-        ctx.Write( m_adrenalinEffectTimer );
-        ctx.Write( m_overdosedValue );
+		ctx.Write( m_stomatchhealTimer );
+		ctx.Write( m_hemologicShock );
+		ctx.Write( m_sybstats.m_sepsis );
+		ctx.Write( m_sepsisTime );
+		ctx.Write( m_sybstats.m_zombieVirus );
+		ctx.Write( m_zvirusTimer );		
+		ctx.Write( m_sybstats.m_bulletBandage1 );
+		ctx.Write( m_sybstats.m_bulletBandage2 );
+		ctx.Write( m_sybstats.m_knifeBandage1 );
+		ctx.Write( m_sybstats.m_knifeBandage2 );
+		ctx.Write( m_bullethitRegenTimer );
+		ctx.Write( m_knifehitRegenTimer );
+		ctx.Write( m_concussionRegenTimer );
+		ctx.Write( m_sybstats.m_bloodHemostaticEffect );
+		ctx.Write( m_bloodHemostaticTimer );		
+		ctx.Write( m_sybstats.m_hematopoiesisEffect );		
+		ctx.Write( m_hematopoiesisTimer );
+		ctx.Write( m_sybstats.m_salveEffect );
+		ctx.Write( m_salveEffectTimer );		
+		ctx.Write( m_sybstats.m_adrenalinEffect );
+		ctx.Write( m_adrenalinEffectTimer );
+		ctx.Write( m_overdosedValue );
 		ctx.Write( m_sybstats.m_influenzaLevel );
 		ctx.Write( m_influenzaTimer );
 		ctx.Write( m_sybstats.m_antibioticsLevel );
@@ -169,7 +169,7 @@ modded class PlayerBase
 		ctx.Write( m_mindDegradationTime );
 		
 		// VER 0.2
-        ctx.Write( SYBERIA_B20_VERSION );
+		ctx.Write( SYBERIA_B20_VERSION );
 		ctx.Write( m_sybstats.m_radiationSickness );
 		ctx.Write( m_radiationDose );
 		ctx.Write( m_sybstats.m_radioprotectionLevel );
@@ -187,9 +187,9 @@ modded class PlayerBase
 		if (!super.OnStoreLoad(ctx, version))
 			return false;
 		
-        // VER 0.1
-        int syb_ver;
-        if(ctx.Read( syb_ver ) && syb_ver == SYBERIA_B10_VERSION)
+		// VER 0.1
+		int syb_ver;
+		if(ctx.Read( syb_ver ) && syb_ver == SYBERIA_B10_VERSION)
 		{
 			// Sleeping
 			if (!ctx.Read( m_sleepingValue )) return false;		
@@ -791,7 +791,7 @@ modded class PlayerBase
 		{
 			GetInventory().DropEntity(InventoryMode.SERVER, this, itemInHands);
 			GetSyberiaRPC().SendToClient(SyberiaRPC.SYBRPC_SCREEN_MESSAGE, GetIdentity(), new Param1<string>("#syb_skill_overweight_item #syb_perk_name_" + SyberiaPerkType.SYBPERK_STRENGTH_HEAVY_ITEMS));
-            SyberiaSoundEmitter.Spawn("JimWow" + Math.RandomIntInclusive(1, 2) + "_SoundEmitter", GetPosition());
+			SyberiaSoundEmitter.Spawn("JimWow" + Math.RandomIntInclusive(1, 2) + "_SoundEmitter", GetPosition());
 		}
 		
 		// Calculate athletic
@@ -1962,9 +1962,9 @@ modded class PlayerBase
 			DecreaseHealth("GlobalHealth","Health", (maxHealth / 100) * (m_overdosedValue - 3) * deltaTime);
 		}
 		
-        if (m_overdosedValue > 0)
-        {
-            m_overdosedValue = m_overdosedValue - (GetSyberiaConfig().m_overdoseDecrementPerSec * GetPerkFloatValue(SyberiaPerkType.SYBPERK_IMMUNITY_OVERDOSE_STRONG, 1, 1) * deltaTime);
+		if (m_overdosedValue > 0)
+		{
+			m_overdosedValue = m_overdosedValue - (GetSyberiaConfig().m_overdoseDecrementPerSec * GetPerkFloatValue(SyberiaPerkType.SYBPERK_IMMUNITY_OVERDOSE_STRONG, 1, 1) * deltaTime);
  			m_overdosedValue = Math.Max(0, m_overdosedValue);
 		}
 		

@@ -20,11 +20,11 @@ modded class TraderPoint
 		return m_traderActiveUser != null;
 	}
 	
-    override void OnRPC(PlayerIdentity sender, int rpc_type, ParamsReadContext ctx)
+	override void OnRPC(PlayerIdentity sender, int rpc_type, ParamsReadContext ctx)
 	{
 		super.OnRPC(sender, rpc_type, ctx);
 		
-        if (rpc_type == SyberiaERPC.SYBERPC_SYNCH_TRADER_POINT_SERVER)
+		if (rpc_type == SyberiaERPC.SYBERPC_SYNCH_TRADER_POINT_SERVER)
 		{
 			if (m_ready)
 			{
@@ -35,7 +35,7 @@ modded class TraderPoint
 		}
 	}
 
-    override Object GetTraderObject()
+	override Object GetTraderObject()
 	{
 		if (!m_ready) return null;
 		return m_traderObject;

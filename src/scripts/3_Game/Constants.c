@@ -22,13 +22,13 @@ modded class SyberiaConfig
 {
 	// Sleeping
 	int m_sleepingDecPerSec;
-    bool m_sleepingUnconsionEnabled;
-    int m_sleepingIncPerUnconsionBoostValue;
-    int m_sleepingIncPerUnconsionBoostTime;
-    float m_sleepingIncPerSleepingLvl1Sec;
-    float m_sleepingIncPerSleepingLvl2Sec;
-    float m_sleepingHealPerSec01;
-    float m_sleepingHealInfluenzaChance;
+	bool m_sleepingUnconsionEnabled;
+	int m_sleepingIncPerUnconsionBoostValue;
+	int m_sleepingIncPerUnconsionBoostTime;
+	float m_sleepingIncPerSleepingLvl1Sec;
+	float m_sleepingIncPerSleepingLvl2Sec;
+	float m_sleepingHealPerSec01;
+	float m_sleepingHealInfluenzaChance;
 	
 	// Medicine
 	float m_sepsisStage1TimeSec;
@@ -43,12 +43,12 @@ modded class SyberiaConfig
 	float m_zvirusStage2TimeSec;
 	float m_zvirusDeathTimeSec;
 	float m_zvirusBloodLosePerSec;
-    float m_zvirusHealthLosePerSec;
+	float m_zvirusHealthLosePerSec;
 	float m_zvirusCuthitSpawnChance;
-    float m_zvirusPainSpawnChance;
+	float m_zvirusPainSpawnChance;
 	float m_zvirusVommitSpawnChance;
-    float m_zvirusBlindnessSpawnChance;
-    float m_zvirusFeverblurSpawnChance;
+	float m_zvirusBlindnessSpawnChance;
+	float m_zvirusFeverblurSpawnChance;
 	float m_zvirusZombieHitChance;
 	float m_zvirusZombieBloodTransferChance;
 	float m_zvirusAntidotBloodDmg01;
@@ -118,10 +118,10 @@ modded class SyberiaConfig
 	ref array<int> m_stomatchpoisonDrinkWell = new array<int>;
 	ref array<int> m_stomatchpoisonDefaultTimes = new array<int>;
 	float m_startSurgeryVisceraChance;
-    float m_startSurgeryBulletChance;
-    float m_startSurgeryKnifeChance;
+	float m_startSurgeryBulletChance;
+	float m_startSurgeryKnifeChance;
 	float m_surgerySideEffectBloodLoseCount;
-    float m_surgerySideEffectHealthLoseCount;
+	float m_surgerySideEffectHealthLoseCount;
 	ref array<float> m_radiationDoseDecrementPerSec = new array<float>;
 	ref array<float> m_radiationLevels = new array<float>;
 	ref array<float> m_radiationHealthDamage = new array<float>;
@@ -161,49 +161,49 @@ modded class SyberiaConfig
 	float m_igniteFireplaceIndoorAdditionalChance;
 	float m_damageClothingInRadiationZone;
 	float m_defaultStaminaDepletionMultiplier;
-    float m_defaultStaminaRecoveryMultiplier;
+	float m_defaultStaminaRecoveryMultiplier;
 	float m_dirtyFruitsSpawnChance;
-    float m_dirtyMushroomsSpawnChance;
+	float m_dirtyMushroomsSpawnChance;
 	
 	// Skills Experience System
 	float m_skillsExpImmunityPain;
-    float m_skillsExpImmunityHematoma;
-    float m_skillsExpImmunityInfluenza;
-    float m_skillsExpImmunityStomatch;
-    float m_skillsExpImmunityZVirus;
-    float m_skillsExpImmunitySepsis;
-    float m_skillsExpImmunityOverdose;
+	float m_skillsExpImmunityHematoma;
+	float m_skillsExpImmunityInfluenza;
+	float m_skillsExpImmunityStomatch;
+	float m_skillsExpImmunityZVirus;
+	float m_skillsExpImmunitySepsis;
+	float m_skillsExpImmunityOverdose;
 	float m_skillsExpAthleticsSprintTime;
 	float m_skillsExpAthleticsSprintIncrement;	
 	float m_skillsExpAthleticsJogTime;
-    float m_skillsExpAthleticsJogIncrement;
+	float m_skillsExpAthleticsJogIncrement;
 	float m_skillsExpStrengthLightAttackValue;
-    float m_skillsExpStrengthLightAttackChance;
-    float m_skillsExpStrengthHeavyAttackValue;
-    float m_skillsExpStrengthHeavyAttackChance;
+	float m_skillsExpStrengthLightAttackChance;
+	float m_skillsExpStrengthHeavyAttackValue;
+	float m_skillsExpStrengthHeavyAttackChance;
 	float m_skillsExpStrengthMineWoodOrStone;	
 	float m_skillsExpMedicineBandage;
 	float m_skillsExpMedicineTablets;
 	float m_skillsExpMedicineAmpoule;
 	float m_skillsExpMedicineInjector;
-    float m_skillsExpMedicineSurgery;		
+	float m_skillsExpMedicineSurgery;		
 	float m_skillsExpStealthSilentAttackValue;
-    float m_skillsExpStealthSilentAttackChance;
+	float m_skillsExpStealthSilentAttackChance;
 	float m_skillsExpStealthCrouchTime;
-    float m_skillsExpStealthCrouchIncrement;
+	float m_skillsExpStealthCrouchIncrement;
 	float m_skillsExpHuntingButchSmall;
-    float m_skillsExpHuntingButchCommon;
-    float m_skillsExpHuntingButchWolf;
-    float m_skillsExpHuntingButchBear;
+	float m_skillsExpHuntingButchCommon;
+	float m_skillsExpHuntingButchWolf;
+	float m_skillsExpHuntingButchBear;
 	float m_skillsExpSurvivalIgniteFireSuccess;
 	float m_skillsExpSurvivalIgniteFireFailed;
 	
 	// World system
 	bool m_isWinterMap;
 	float m_airDayTemperatureMin;
-    float m_airDayTemperatureMax;
-    float m_airNightTemperatureMin;
-    float m_airNightTemperatureMax;
+	float m_airDayTemperatureMax;
+	float m_airNightTemperatureMin;
+	float m_airNightTemperatureMax;
 	float m_temperatureHighConsumeItemsMod;
 	float m_temperatureLowConsumeItemsMod;
 	float m_temperatureDrinkPondPenalty;
@@ -211,7 +211,7 @@ modded class SyberiaConfig
 	float m_temperatureFillWaterBottleTotal;
 	float m_temperatureFillWaterBottleMod;
 	float m_temperatureIceDrain;
-    float m_temperatureSnowDrain;
+	float m_temperatureSnowDrain;
 	float m_clothingHeatIsolationGlobal;
 	float m_additionalTemperatureResistForSurvivalSkill;
 	float m_clothingDrenchedHeatDrain;
@@ -222,18 +222,18 @@ modded class SyberiaConfig
 	{
 		super.Init();
 		
-        string worldName;
+		string worldName;
 		GetGame().GetWorldName(worldName);
-        
+		
 		// Sleeping
 		m_sleepingDecPerSec = ConfigGetInt("CfgSyberia SleepingSystem sleepingDecPerSec");
-	    m_sleepingUnconsionEnabled = ConfigGetInt("CfgSyberia SleepingSystem sleepingUnconsionEnabled") == 1;
-	    m_sleepingIncPerUnconsionBoostValue = ConfigGetInt("CfgSyberia SleepingSystem sleepingIncPerUnconsionBoostValue");
-	    m_sleepingIncPerUnconsionBoostTime = ConfigGetInt("CfgSyberia SleepingSystem sleepingIncPerUnconsionBoostTime");
-	    m_sleepingIncPerSleepingLvl1Sec = ConfigGetFloat("CfgSyberia SleepingSystem sleepingIncPerSleepingLvl1Sec");
-	    m_sleepingIncPerSleepingLvl2Sec = ConfigGetFloat("CfgSyberia SleepingSystem sleepingIncPerSleepingLvl2Sec");
-	    m_sleepingHealPerSec01 = ConfigGetFloat("CfgSyberia SleepingSystem sleepingHealPerSec01");
-	    m_sleepingHealInfluenzaChance = ConfigGetFloat("CfgSyberia SleepingSystem sleepingHealInfluenzaChance");
+		m_sleepingUnconsionEnabled = ConfigGetInt("CfgSyberia SleepingSystem sleepingUnconsionEnabled") == 1;
+		m_sleepingIncPerUnconsionBoostValue = ConfigGetInt("CfgSyberia SleepingSystem sleepingIncPerUnconsionBoostValue");
+		m_sleepingIncPerUnconsionBoostTime = ConfigGetInt("CfgSyberia SleepingSystem sleepingIncPerUnconsionBoostTime");
+		m_sleepingIncPerSleepingLvl1Sec = ConfigGetFloat("CfgSyberia SleepingSystem sleepingIncPerSleepingLvl1Sec");
+		m_sleepingIncPerSleepingLvl2Sec = ConfigGetFloat("CfgSyberia SleepingSystem sleepingIncPerSleepingLvl2Sec");
+		m_sleepingHealPerSec01 = ConfigGetFloat("CfgSyberia SleepingSystem sleepingHealPerSec01");
+		m_sleepingHealInfluenzaChance = ConfigGetFloat("CfgSyberia SleepingSystem sleepingHealInfluenzaChance");
 		
 		// Medicine
 		m_sepsisStage1TimeSec = ConfigGetFloat("CfgSyberia MedicineSystem sepsisStage1TimeSec");
@@ -248,12 +248,12 @@ modded class SyberiaConfig
 		m_zvirusStage2TimeSec = ConfigGetFloat("CfgSyberia MedicineSystem zvirusStage2TimeSec");
 		m_zvirusDeathTimeSec = ConfigGetFloat("CfgSyberia MedicineSystem zvirusDeathTimeSec");
 		m_zvirusBloodLosePerSec = ConfigGetFloat("CfgSyberia MedicineSystem zvirusBloodLosePerSec");
-	    m_zvirusHealthLosePerSec = ConfigGetFloat("CfgSyberia MedicineSystem zvirusHealthLosePerSec");
+		m_zvirusHealthLosePerSec = ConfigGetFloat("CfgSyberia MedicineSystem zvirusHealthLosePerSec");
 		m_zvirusCuthitSpawnChance = ConfigGetFloat("CfgSyberia MedicineSystem zvirusCuthitSpawnChance");
 		m_zvirusPainSpawnChance = ConfigGetFloat("CfgSyberia MedicineSystem zvirusPainSpawnChance");	
 		m_zvirusVommitSpawnChance = ConfigGetFloat("CfgSyberia MedicineSystem zvirusVommitSpawnChance");
-    	m_zvirusBlindnessSpawnChance = ConfigGetFloat("CfgSyberia MedicineSystem zvirusBlindnessSpawnChance");
-    	m_zvirusFeverblurSpawnChance = ConfigGetFloat("CfgSyberia MedicineSystem zvirusFeverblurSpawnChance");	
+		m_zvirusBlindnessSpawnChance = ConfigGetFloat("CfgSyberia MedicineSystem zvirusBlindnessSpawnChance");
+		m_zvirusFeverblurSpawnChance = ConfigGetFloat("CfgSyberia MedicineSystem zvirusFeverblurSpawnChance");	
 		m_zvirusZombieHitChance = ConfigGetFloat("CfgSyberia MedicineSystem zvirusZombieHitChance");
 		m_zvirusZombieBloodTransferChance = ConfigGetFloat("CfgSyberia MedicineSystem zvirusZombieBloodTransferChance");
 		m_zvirusAntidotBloodDmg01 = ConfigGetFloat("CfgSyberia MedicineSystem zvirusAntidotBloodDmg01");
@@ -323,10 +323,10 @@ modded class SyberiaConfig
 		ConfigGetIntArray("CfgSyberia MedicineSystem stomatchpoisonDrinkWell", m_stomatchpoisonDrinkWell, 2);
 		ConfigGetIntArray("CfgSyberia MedicineSystem stomatchpoisonDefaultTimes", m_stomatchpoisonDefaultTimes, 3);	
 		m_startSurgeryVisceraChance = ConfigGetFloat("CfgSyberia MedicineSystem startSurgeryVisceraChance");
-	    m_startSurgeryBulletChance = ConfigGetFloat("CfgSyberia MedicineSystem startSurgeryBulletChance");
-	    m_startSurgeryKnifeChance = ConfigGetFloat("CfgSyberia MedicineSystem startSurgeryKnifeChance");
+		m_startSurgeryBulletChance = ConfigGetFloat("CfgSyberia MedicineSystem startSurgeryBulletChance");
+		m_startSurgeryKnifeChance = ConfigGetFloat("CfgSyberia MedicineSystem startSurgeryKnifeChance");
 		m_surgerySideEffectBloodLoseCount = ConfigGetFloat("CfgSyberia MedicineSystem surgerySideEffectBloodLoseCount");
-	    m_surgerySideEffectHealthLoseCount = ConfigGetFloat("CfgSyberia MedicineSystem surgerySideEffectHealthLoseCount");
+		m_surgerySideEffectHealthLoseCount = ConfigGetFloat("CfgSyberia MedicineSystem surgerySideEffectHealthLoseCount");
 		ConfigGetFloatArray("CfgSyberia MedicineSystem radiationDoseDecrementPerSec", m_radiationDoseDecrementPerSec, 4);	
 		ConfigGetFloatArray("CfgSyberia MedicineSystem radiationLevels", m_radiationLevels, 3);	
 		ConfigGetFloatArray("CfgSyberia MedicineSystem radiationHealthDamage", m_radiationHealthDamage, 3);
@@ -366,39 +366,39 @@ modded class SyberiaConfig
 		m_igniteFireplaceIndoorAdditionalChance = ConfigGetFloat("CfgSyberia IngameSystem igniteFireplaceIndoorAdditionalChance");
 		m_damageClothingInRadiationZone = ConfigGetFloat("CfgSyberia IngameSystem damageClothingInRadiationZone");
 		m_defaultStaminaDepletionMultiplier = ConfigGetFloat("CfgSyberia IngameSystem defaultStaminaDepletionMultiplier");
-	    m_defaultStaminaRecoveryMultiplier = ConfigGetFloat("CfgSyberia IngameSystem defaultStaminaRecoveryMultiplier");
+		m_defaultStaminaRecoveryMultiplier = ConfigGetFloat("CfgSyberia IngameSystem defaultStaminaRecoveryMultiplier");
 		m_dirtyFruitsSpawnChance = ConfigGetFloat("CfgSyberia IngameSystem dirtyFruitsSpawnChance");
 		m_dirtyMushroomsSpawnChance = ConfigGetFloat("CfgSyberia IngameSystem dirtyMushroomsSpawnChance");
 		
 		// Skills Experience System
 		m_skillsExpImmunityPain = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunityPain");
-	    m_skillsExpImmunityHematoma = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunityHematoma");
-	    m_skillsExpImmunityInfluenza = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunityInfluenza");
-	    m_skillsExpImmunityStomatch = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunityStomatch");
-	    m_skillsExpImmunityZVirus = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunityZVirus");
-	    m_skillsExpImmunitySepsis = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunitySepsis");
-	    m_skillsExpImmunityOverdose = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunityOverdose");
+		m_skillsExpImmunityHematoma = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunityHematoma");
+		m_skillsExpImmunityInfluenza = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunityInfluenza");
+		m_skillsExpImmunityStomatch = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunityStomatch");
+		m_skillsExpImmunityZVirus = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunityZVirus");
+		m_skillsExpImmunitySepsis = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunitySepsis");
+		m_skillsExpImmunityOverdose = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpImmunityOverdose");
 		m_skillsExpAthleticsSprintTime = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpAthleticsSprintTime");
-	    m_skillsExpAthleticsSprintIncrement = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpAthleticsSprintIncrement");	
+		m_skillsExpAthleticsSprintIncrement = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpAthleticsSprintIncrement");	
 		m_skillsExpAthleticsJogTime = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpAthleticsJogTime");	
-	    m_skillsExpAthleticsJogIncrement = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpAthleticsJogIncrement");	
+		m_skillsExpAthleticsJogIncrement = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpAthleticsJogIncrement");	
 		m_skillsExpStrengthLightAttackValue = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStrengthLightAttackValue");
-	    m_skillsExpStrengthLightAttackChance = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStrengthLightAttackChance");
-	    m_skillsExpStrengthHeavyAttackValue = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStrengthHeavyAttackValue");
-	    m_skillsExpStrengthHeavyAttackChance = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStrengthHeavyAttackChance");		
+		m_skillsExpStrengthLightAttackChance = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStrengthLightAttackChance");
+		m_skillsExpStrengthHeavyAttackValue = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStrengthHeavyAttackValue");
+		m_skillsExpStrengthHeavyAttackChance = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStrengthHeavyAttackChance");		
 		m_skillsExpStrengthMineWoodOrStone = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStrengthMineWoodOrStone");
 		m_skillsExpMedicineBandage = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpMedicineBandage");
 		m_skillsExpMedicineTablets = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpMedicineTablets");
 		m_skillsExpMedicineAmpoule = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpMedicineAmpoule");
 		m_skillsExpMedicineInjector = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpMedicineInjector");
-    	m_skillsExpMedicineSurgery = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpMedicineSurgery");		
+		m_skillsExpMedicineSurgery = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpMedicineSurgery");		
 		m_skillsExpStealthSilentAttackValue = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStealthSilentAttackValue");
-	    m_skillsExpStealthSilentAttackChance = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStealthSilentAttackChance");
+		m_skillsExpStealthSilentAttackChance = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStealthSilentAttackChance");
 		m_skillsExpStealthCrouchTime = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStealthCrouchTime");	
 		m_skillsExpStealthCrouchIncrement = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStealthCrouchIncrement");		
 		m_skillsExpHuntingButchSmall = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpHuntingButchSmall");
-	    m_skillsExpHuntingButchCommon = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpHuntingButchCommon");
-	    m_skillsExpHuntingButchWolf = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpHuntingButchWolf");
+		m_skillsExpHuntingButchCommon = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpHuntingButchCommon");
+		m_skillsExpHuntingButchWolf = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpHuntingButchWolf");
 		m_skillsExpHuntingButchBear = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpHuntingButchBear");
 		
 		m_skillsExpSurvivalIgniteFireSuccess = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpSurvivalIgniteFireSuccess");

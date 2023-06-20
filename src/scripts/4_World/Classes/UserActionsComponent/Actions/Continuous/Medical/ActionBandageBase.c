@@ -13,7 +13,7 @@ modded class ActionBandageBase: ActionContinuousBase
 		{
 			player.m_BleedingManagerServer.SetBloodInfection(true);
 		}
-        else if (!player.HasDisinfectedHands() && Math.RandomFloat01() < skillSepsisChance * 0.1)
+		else if (!player.HasDisinfectedHands() && Math.RandomFloat01() < skillSepsisChance * 0.1)
 		{
 			player.m_BleedingManagerServer.SetBloodInfection(true);
 		}
@@ -30,13 +30,13 @@ modded class ActionBandageBase: ActionContinuousBase
 		{
 			item.Delete();
 		}
-        
-		ItemBase gloves = player.GetItemOnSlot("Gloves");
-        if (gloves)
-        {
-            gloves.SetCleanness(0);
-        }
 		
-        operator.AddExperience(SyberiaSkillType.SYBSKILL_MEDICINE, GetSyberiaConfig().m_skillsExpMedicineBandage);
+		ItemBase gloves = player.GetItemOnSlot("Gloves");
+		if (gloves)
+		{
+			gloves.SetCleanness(0);
+		}
+		
+		operator.AddExperience(SyberiaSkillType.SYBSKILL_MEDICINE, GetSyberiaConfig().m_skillsExpMedicineBandage);
 	}
 };

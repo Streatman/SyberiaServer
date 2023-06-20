@@ -33,13 +33,13 @@ modded class ActionSkinning
 		}
 		
 		ItemBase gloves = action_data.m_Player.GetItemOnSlot("Gloves");
-        if (gloves)
-        {
-            gloves.SetCleanness(0);
-        }
-        else
-        {
-            action_data.m_Player.SetBloodyHands(true);
-        }
+		if (gloves)
+		{
+			gloves.SetCleanness(0);
+		}
+		else
+		{
+			action_data.m_Player.SetBloodyHands(true);
+		}
 	}
 };

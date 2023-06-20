@@ -40,7 +40,7 @@ modded class Trap_RabbitSnare
 		return true;
 	}
 	
-    override void SetupTrapPlayer( PlayerBase player, bool set_position = true )
+	override void SetupTrapPlayer( PlayerBase player, bool set_position = true )
 	{
 		super.SetupTrapPlayer(player, set_position);
 		

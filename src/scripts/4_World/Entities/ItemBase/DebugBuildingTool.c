@@ -26,7 +26,7 @@ modded class DebugBuildingTool
 			int livespaceId = 0;
 			while ( GetGame().ConfigIsExisting(configPath + " Livespace" + livespaceId) )
 			{
-                ref map<string, string> data = new map<string, string>;
+				ref map<string, string> data = new map<string, string>;
 				BuildingLivespace livespace = BuildingLivespace.SpawnLivespace(-1, house, livespaceId, data);
 				m_livespaces.Insert(livespace);
 				livespaceId = livespaceId + 1;

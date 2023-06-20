@@ -9,11 +9,11 @@ modded class ActionPlugStethoscope
 		ItemBase itemEyewear = action_data.m_Player.GetItemOnSlot("Eyewear");
 		if (itemEyewear)
 		{
-            action_data.m_Player.GetInventory().DropEntity(InventoryMode.SERVER, action_data.m_Player, itemEyewear);
-        }
-        
+			action_data.m_Player.GetInventory().DropEntity(InventoryMode.SERVER, action_data.m_Player, itemEyewear);
+		}
+		
 		GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).CallLater(DoPlugStethoscope, 500, false, itemStatoschope, action_data.m_Player);
-        
+		
 	}
 	
 	void DoPlugStethoscope(Stethoscope itemStatoschope, PlayerBase player)

@@ -10,17 +10,17 @@ modded class Edible_Base
 	}
 	
 	override void EEOnCECreate()
-    {
-        super.EEOnCECreate();
-        if (IsFruit() && Math.RandomFloat01() < GetSyberiaConfig().m_dirtyFruitsSpawnChance)
-        {
-            InsertAgent(eAgents.FOOD_POISON, 1);
-        }
+	{
+		super.EEOnCECreate();
+		if (IsFruit() && Math.RandomFloat01() < GetSyberiaConfig().m_dirtyFruitsSpawnChance)
+		{
+			InsertAgent(eAgents.FOOD_POISON, 1);
+		}
 		else if (IsMushroom() && Math.RandomFloat01() < GetSyberiaConfig().m_dirtyMushroomsSpawnChance)
-        {
-            InsertAgent(eAgents.FOOD_POISON, 1);
-        }
-    }
+		{
+			InsertAgent(eAgents.FOOD_POISON, 1);
+		}
+	}
 	
 	override void OnStoreSave( ParamsWriteContext ctx )
 	{   
@@ -177,13 +177,13 @@ modded class Edible_Base
 		SetSynchDirty();
 		
 		ItemBase gloves = butcher.GetItemOnSlot("Gloves");
-        if (gloves)
-        {
-            gloves.SetCleanness(0);
-        }
-        else
-        {
-            butcher.SetBloodyHands(true);
-        }
+		if (gloves)
+		{
+			gloves.SetCleanness(0);
+		}
+		else
+		{
+			butcher.SetBloodyHands(true);
+		}
 	}
 };

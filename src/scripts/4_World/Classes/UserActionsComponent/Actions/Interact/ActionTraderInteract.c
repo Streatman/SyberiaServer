@@ -1,6 +1,6 @@
 modded class ActionTraderInteract
 {
-    override void OnEndServer( ActionData action_data )
+	override void OnEndServer( ActionData action_data )
 	{
 		if (action_data.m_Player && action_data.m_Target && action_data.m_Target.GetObject())
 		{

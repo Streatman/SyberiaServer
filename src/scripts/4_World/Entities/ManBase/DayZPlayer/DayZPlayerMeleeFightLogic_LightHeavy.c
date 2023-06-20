@@ -10,9 +10,9 @@ modded class DayZPlayerMeleeFightLogic_LightHeavy
 		
 		//Check if server side
 		bool affectHands = true;
-        if (itemInHands)
-        {
-            if ( (itemInHands.IsWeapon() || itemInHands.IsMeleeWeapon()) && !IsItemUsingFistAmmo(itemInHands) )
+		if (itemInHands)
+		{
+			if ( (itemInHands.IsWeapon() || itemInHands.IsMeleeWeapon()) && !IsItemUsingFistAmmo(itemInHands) )
 			{
 				affectHands = false;
 			}
@@ -20,8 +20,8 @@ modded class DayZPlayerMeleeFightLogic_LightHeavy
 			{
 				itemInHands.DecreaseHealth( "", "", GetSyberiaConfig().m_damageNonWeaponItemInHandsOnAttack );
 			}
-        }
-           
+		}
+		   
 		//If gloves, damage gloves
 		if (affectHands)
 		{

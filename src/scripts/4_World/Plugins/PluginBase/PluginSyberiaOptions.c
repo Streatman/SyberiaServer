@@ -410,9 +410,9 @@ class PluginSyberiaOptions_GroupDefault
 	ref array<string> m_gearFoot;
 	ref array<string> m_gearHead;
 	ref array<string> m_gearMask;
-    ref array<string> m_gearGloves;
-    ref array<string> m_gearVest;
-    ref array<string> m_gearBackpack;
+	ref array<string> m_gearGloves;
+	ref array<string> m_gearVest;
+	ref array<string> m_gearBackpack;
 	ref array<string> m_gearWeapon;
 	ref array<ref PluginSyberiaOptions_ItemsLoadout> m_gearItems;
 	
@@ -425,9 +425,9 @@ class PluginSyberiaOptions_GroupDefault
 		delete m_gearFoot;
 		delete m_gearHead;
 		delete m_gearMask;
-    	delete m_gearGloves;
-    	delete m_gearVest;
-    	delete m_gearBackpack;
+		delete m_gearGloves;
+		delete m_gearVest;
+		delete m_gearBackpack;
 		delete m_gearWeapon;
 		
 		foreach (ref PluginSyberiaOptions_ItemsLoadout il : m_gearItems) delete il;

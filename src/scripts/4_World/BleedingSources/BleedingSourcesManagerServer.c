@@ -46,19 +46,19 @@ modded class BleedingSourcesManagerServer
 		m_Player.MarkSybStatsDirty(1001);
 	}
 	
-    private void ApplyBandageDammageHands()
-    {
-        ItemBase gloves = m_Player.GetItemOnSlot("Gloves");
-        if (gloves)
-        {
-            gloves.SetCleanness(0);
-        }
-        else
-        {
-            m_Player.SetBloodyHands(true);
-        }
-    }
-    
+	private void ApplyBandageDammageHands()
+	{
+		ItemBase gloves = m_Player.GetItemOnSlot("Gloves");
+		if (gloves)
+		{
+			gloves.SetCleanness(0);
+		}
+		else
+		{
+			m_Player.SetBloodyHands(true);
+		}
+	}
+	
 	void ApplyBandage(int level)
 	{
 		if (m_Player.GetSybStats().m_bulletHits > (m_Player.GetSybStats().m_bulletBandage1 + m_Player.GetSybStats().m_bulletBandage2))

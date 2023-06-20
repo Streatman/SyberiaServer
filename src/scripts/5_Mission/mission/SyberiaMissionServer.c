@@ -309,7 +309,7 @@ modded class MissionServer
 				player.Delete();
 				SybLogSrv("Delete ghost player");
 				
-                GetGame().RemoveFromReconnectCache(identity.GetId());
+				GetGame().RemoveFromReconnectCache(identity.GetId());
 				GetGame().DisconnectPlayer(identity, identity.GetId());
 				// Send list of players at all clients
 				GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(SyncEvents.SendPlayerList, 1000);
@@ -353,7 +353,7 @@ modded class MissionServer
 		}
 		else if (identity)
 		{
-            GetGame().RemoveFromReconnectCache(identity.GetId());
+			GetGame().RemoveFromReconnectCache(identity.GetId());
 			GetGame().DisconnectPlayer(identity, identity.GetId());
 			SybLogSrv("ForceRespawnPlayer PlayerBase not found.");
 		}
@@ -367,7 +367,7 @@ modded class MissionServer
 		if (!profile)
 		{
 			Param1<ref RpcCreateNewCharContainer> clientData;
-       		if ( !ctx.Read( clientData ) ) return;	
+	   		if ( !ctx.Read( clientData ) ) return;	
 			
 			string newFullName = clientData.param1.m_name;
 			if (CharacterMetadata.ValidateCharacterNameFull(newFullName))
@@ -385,7 +385,7 @@ modded class MissionServer
 					}
 					else
 					{
-                        GetGame().RemoveFromReconnectCache(sender.GetId());
+						GetGame().RemoveFromReconnectCache(sender.GetId());
 						GetGame().DisconnectPlayer(sender, sender.GetId());
 						return;
 					}
@@ -450,7 +450,7 @@ modded class MissionServer
 		if (profile && profile.m_needToConfigureGear)
 		{
 			Param1<ref array<int>> clientData;
-       		if ( !ctx.Read( clientData ) ) return;	
+	   		if ( !ctx.Read( clientData ) ) return;	
 			
 			ref array<int> selectedIndexes = clientData.param1;
 			if (selectedIndexes.Count() != GetSyberiaOptions().GetCharacterAllowedEquipmentSize())
@@ -488,8 +488,8 @@ modded class MissionServer
 			if ((profile.m_souls - soulsPrice) < 0)
 			{
 				SybLogSrv("SYBRPC_STARTGAME_REQUEST Player kicked because no souls left to respawn: " + sender);
-                GetGame().RemoveFromReconnectCache(sender.GetId());
-                GetGame().DisconnectPlayer(sender, sender.GetId());
+				GetGame().RemoveFromReconnectCache(sender.GetId());
+				GetGame().DisconnectPlayer(sender, sender.GetId());
 				return;
 			}
 			
@@ -544,7 +544,7 @@ modded class MissionServer
 		if (profile && profile.m_skills)
 		{
 			Param2<int, int> clientData;
-       		if ( !ctx.Read( clientData ) ) return;
+	   		if ( !ctx.Read( clientData ) ) return;
 			
 			int perkId = clientData.param1;
 			int perkLvl = clientData.param2;

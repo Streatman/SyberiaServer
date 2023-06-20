@@ -1,6 +1,6 @@
 modded class AITargetCallbacksPlayer
 {
-    override float GetMaxVisionRangeModifier(EntityAI pApplicant)
+	override float GetMaxVisionRangeModifier(EntityAI pApplicant)
 	{ 
 		HumanMovementState state = new HumanMovementState;
 		m_Player.GetMovementState(state);
@@ -9,7 +9,7 @@ modded class AITargetCallbacksPlayer
 		float speedCoef = PlayerConstants.AI_VISIBILITY_RUN;
 		float stanceCoef = PlayerConstants.AI_VISIBILITY_STANDING;
 		float playerVisCoef = m_Player.GetVisibilityCoef();
-        
+		
 		//! player speed mofifications
 		switch(AITargetCallbacksPlayer.StanceToMovementIdxTranslation(state))
 		{

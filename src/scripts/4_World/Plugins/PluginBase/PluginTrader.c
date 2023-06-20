@@ -140,9 +140,9 @@ modded class PluginTrader
 	}
 	
 	void RpcRequstTraderMenuClose(ParamsReadContext ctx, PlayerIdentity sender)
-    {   
+	{   
 		Param1<int> clientData;
-       	if ( !ctx.Read( clientData ) ) return;		
+	   	if ( !ctx.Read( clientData ) ) return;		
 		
 		TraderPoint traderPoint;
 		if ( m_traderPoints.Find(clientData.param1, traderPoint) )
@@ -163,7 +163,7 @@ modded class PluginTrader
 		
 		// Prepare
 		Param3<int, ref array<ItemBase>, ref map<string, float>> clientData;
-       	if ( !ctx.Read( clientData ) ) return;
+	   	if ( !ctx.Read( clientData ) ) return;
 		
 		int traderId = clientData.param1;
 		ref array<ItemBase>	sellItems = clientData.param2;
@@ -385,9 +385,9 @@ class PluginTrader_Config
 
 class PluginTrader_TraderServer : PluginTrader_Trader
 {
-    string m_classname;
+	string m_classname;
 	ref array<string> m_attachments;
-    float m_rotation;
+	float m_rotation;
 };
 
 modded class PluginTrader_Data

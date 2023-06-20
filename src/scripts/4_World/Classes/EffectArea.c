@@ -1,7 +1,7 @@
 modded class EffectArea
 {
-    override void InitZone()
-    {
-        GetGame().ObjectDelete(this);
-    }
+	override void InitZone()
+	{
+		GetGame().ObjectDelete(this);
+	}
 };

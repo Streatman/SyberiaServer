@@ -1,6 +1,6 @@
 modded class ActionUnlockDoors
 {
-    override void OnFinishProgressServer( ActionData action_data )
+	override void OnFinishProgressServer( ActionData action_data )
 	{
 		House building;
 		if ( Class.CastTo(building, action_data.m_Target.GetObject()) )

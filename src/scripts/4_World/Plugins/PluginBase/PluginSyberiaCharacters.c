@@ -130,5 +130,5 @@ class PluginSyberiaCharacters extends PluginBase
 
 PluginSyberiaCharacters GetSyberiaCharacters() 
 {
-    return PluginSyberiaCharacters.Cast(GetPlugin(PluginSyberiaCharacters));
+	return PluginSyberiaCharacters.Cast(GetPlugin(PluginSyberiaCharacters));
 }

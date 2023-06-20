@@ -1,6 +1,6 @@
 modded class ActionOpenHomebook
 {
-    override void OnEndServer( ActionData action_data )
+	override void OnEndServer( ActionData action_data )
 	{
 		BuildingLivespace livepsace;
 		if (!BuildingLivespace.CastTo(livepsace, action_data.m_Target.GetObject())) return;

@@ -1,6 +1,6 @@
 modded class ActionLightItemOnFire
 {
-    override void OnFinishProgressServer( ActionData action_data )
+	override void OnFinishProgressServer( ActionData action_data )
 	{
 		ItemBase target_item = ItemBase.Cast( action_data.m_Target.GetObject() );
 		ItemBase item = action_data.m_MainItem;
