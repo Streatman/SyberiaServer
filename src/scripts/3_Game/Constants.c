@@ -2,7 +2,8 @@ const string SyberiaServer_ModPreffix = "[SYBERIA SERVER] ";
 const bool SyberiaServer_DebugMode = true;
 const string Syberia_ServerVersion = "OPEN BETA 0.50B";
 
-modded class SyberiaVersionChecker {
+modded class SyberiaVersionChecker
+{
 	override void CLIENT_AND_SERVER_MODS_VERSION_MISSMATCH_0_50B() {}
 }
 
@@ -129,6 +130,8 @@ modded class SyberiaConfig
 	float m_shockDecrementOnLowHealthAndBlood;
 	ref array<float> m_zombieHitDecreaseMind = new array<float>;
 	ref array<float> m_zombieKillDecreaseMind = new array<float>;
+	ref array<float> m_playerHitDecreaseMind = new array<float>;
+	ref array<float> m_playerKillDecreaseMind = new array<float>;
 	ref array<float> m_antidepresantMindInc = new array<float>;
 	bool m_disableLaughterSymptom;
 	
@@ -154,7 +157,6 @@ modded class SyberiaConfig
 	
 	// InGame System
 	int m_bookPagesCountToCut;
-	float m_gasMaskFilterDegradationInToxicZone;
 	float m_gasMaskFilterDegradationInRadZone;
 	float m_gasMaskFilterDegradationDefault;
 	float m_igniteFireplaceBaseSkillcheckChance;
@@ -197,6 +199,8 @@ modded class SyberiaConfig
 	float m_skillsExpHuntingButchBear;
 	float m_skillsExpSurvivalIgniteFireSuccess;
 	float m_skillsExpSurvivalIgniteFireFailed;
+	float m_skillsExpSurvivalCatchFish;
+	float m_skillsExpSurvivalCraftTool;
 	
 	// World system
 	bool m_isWinterMap;
@@ -333,7 +337,9 @@ modded class SyberiaConfig
 		m_radiationSleepingDec = ConfigGetFloat("CfgSyberia MedicineSystem radiationSleepingDec");
 		m_shockDecrementOnLowHealthAndBlood = ConfigGetFloat("CfgSyberia MedicineSystem shockDecrementOnLowHealthAndBlood");
 		ConfigGetFloatArray("CfgSyberia MedicineSystem zombieHitDecreaseMind", m_zombieHitDecreaseMind, 2);	
-		ConfigGetFloatArray("CfgSyberia MedicineSystem zombieKillDecreaseMind", m_zombieKillDecreaseMind, 2);	
+		ConfigGetFloatArray("CfgSyberia MedicineSystem zombieKillDecreaseMind", m_zombieKillDecreaseMind, 2);
+		ConfigGetFloatArray("CfgSyberia MedicineSystem playerHitDecreaseMind", m_playerHitDecreaseMind, 2);	
+		ConfigGetFloatArray("CfgSyberia MedicineSystem playerKillDecreaseMind", m_playerKillDecreaseMind, 2);		
 		ConfigGetFloatArray("CfgSyberia MedicineSystem antidepresantMindInc", m_antidepresantMindInc, 3);
 		m_disableLaughterSymptom = ConfigGetInt("CfgSyberia MedicineSystem disableLaughterSymptom") == 1;
 		
@@ -359,7 +365,6 @@ modded class SyberiaConfig
 		
 		// Others
 		m_bookPagesCountToCut = ConfigGetInt("CfgSyberia IngameSystem bookPagesCountToCut");
-		m_gasMaskFilterDegradationInToxicZone = ConfigGetFloat("CfgSyberia IngameSystem gasMaskFilterDegradationInToxicZone");
 		m_gasMaskFilterDegradationInRadZone = ConfigGetFloat("CfgSyberia IngameSystem gasMaskFilterDegradationInRadZone");
 		m_gasMaskFilterDegradationDefault = ConfigGetFloat("CfgSyberia IngameSystem gasMaskFilterDegradationDefault");
 		m_igniteFireplaceBaseSkillcheckChance = ConfigGetFloat("CfgSyberia IngameSystem igniteFireplaceBaseSkillcheckChance");
@@ -387,6 +392,8 @@ modded class SyberiaConfig
 		m_skillsExpStrengthHeavyAttackValue = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStrengthHeavyAttackValue");
 		m_skillsExpStrengthHeavyAttackChance = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStrengthHeavyAttackChance");		
 		m_skillsExpStrengthMineWoodOrStone = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpStrengthMineWoodOrStone");
+		m_skillsExpSurvivalCatchFish = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpSurvivalCatchFish");
+		m_skillsExpSurvivalCraftTool = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpSurvivalCraftTool");
 		m_skillsExpMedicineBandage = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpMedicineBandage");
 		m_skillsExpMedicineTablets = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpMedicineTablets");
 		m_skillsExpMedicineAmpoule = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpMedicineAmpoule");
@@ -488,7 +495,7 @@ modded class SyberiaConfig
 		else {
 			m_temperatureFillWaterBottleMod = ConfigGetFloat("CfgWorlds " + worldName + " temperatureFillWaterBottleMod");
 		}
-
+	
 		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureIceDrain")) {
 			m_temperatureIceDrain = ConfigGetFloat("CfgSyberia WorldSystem temperatureIceDrain");
 		}
@@ -502,7 +509,7 @@ modded class SyberiaConfig
 		else {
 			m_temperatureSnowDrain = ConfigGetFloat("CfgWorlds " + worldName + " temperatureSnowDrain");
 		}
-
+	
 		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem additionalTemperatureResistForSurvivalSkill")) {
 			m_additionalTemperatureResistForSurvivalSkill = ConfigGetFloat("CfgSyberia WorldSystem additionalTemperatureResistForSurvivalSkill");
 		}

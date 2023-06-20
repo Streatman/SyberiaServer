@@ -41,5 +41,4 @@ modded class AITargetCallbacksPlayer
 		
 		return mod;
 	}
-
 };

@@ -3,7 +3,7 @@ ref PlayerBase GetPlayerByIdentity(PlayerIdentity identity)
 	ref PlayerBase result = null;
 	ref array<Man> players = new array<Man>;
 	GetGame().GetPlayers(players);
-
+	
 	foreach (ref Man man : players)
 	{
 		ref PlayerBase player = PlayerBase.Cast(man);
@@ -23,7 +23,7 @@ ref PlayerBase GetPlayerByGUID(string guid)
 	ref PlayerBase result = null;
 	ref array<Man> players = new array<Man>;
 	GetGame().GetPlayers(players);
-
+	
 	foreach (ref Man man : players)
 	{
 		ref PlayerBase player = PlayerBase.Cast(man);
@@ -46,7 +46,7 @@ ref PlayerBase GetPlayerByCharId(int id)
 	ref PlayerBase result = null;
 	ref array<Man> players = new array<Man>;
 	GetGame().GetPlayers(players);
-
+	
 	foreach (ref Man man : players)
 	{
 		ref PlayerBase player = PlayerBase.Cast(man);

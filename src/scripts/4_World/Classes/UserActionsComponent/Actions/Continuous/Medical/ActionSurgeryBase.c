@@ -58,7 +58,7 @@ modded class ActionSurgeryBase
 		if (Math.RandomFloat01() < 1.0 - skillRawChance)
 		{
 			int sideEffect = Math.RandomIntInclusive(1, 3);
-			if (sideEffect == 1 && Math.RandomFloat01() < skillSepsisChance * 0.1)
+			if (sideEffect == 1 && Math.RandomFloat01() < skillSepsisChance * 0.1 && player.GetSybStats().m_antibioticsLevel < 3)
 			{
 				player.m_BleedingManagerServer.SetBloodInfection(true);
 				result = result + "#syb_surgery_side_effect1 ";
@@ -75,17 +75,17 @@ modded class ActionSurgeryBase
 			}
 		}
 		
-		if (operator.HasDirtyHands())
+		if (operator.HasDirtyHands() && player.GetSybStats().m_antibioticsLevel < 3)
 		{
 			player.m_BleedingManagerServer.SetBloodInfection(true);
 			result = result + "#syb_surgery_sepsis ";
 		}
-		else if (Math.RandomFloat01() < skillSepsisChance && !operator.HasDisinfectedHands())
+		else if (Math.RandomFloat01() < skillSepsisChance && !operator.HasDisinfectedHands() && player.GetSybStats().m_antibioticsLevel < 3)
 		{
 			player.m_BleedingManagerServer.SetBloodInfection(true);
 			result = result + "#syb_surgery_sepsis ";
 		}
-		else if (Math.RandomFloat01() < itemSpesisChance * skillSepsisChance)
+		else if (Math.RandomFloat01() < itemSpesisChance * skillSepsisChance && player.GetSybStats().m_antibioticsLevel < 3)
 		{
 			player.m_BleedingManagerServer.SetBloodInfection(true);
 			result = result + "#syb_surgery_sepsis ";
@@ -100,7 +100,7 @@ modded class ActionSurgeryBase
 		{
 			operator.SetBloodyHands(true);
 		}
-
+	
 		if (item.HasQuantity())
 		{
 			item.AddQuantity(-50 * toolsDegradationMod, true);

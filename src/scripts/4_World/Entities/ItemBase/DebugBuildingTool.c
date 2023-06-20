@@ -1,7 +1,7 @@
 modded class DebugBuildingTool
 {
 	ref array<BuildingLivespace> m_livespaces = new array<BuildingLivespace>;
-
+	
 	override void EEDelete(EntityAI parent)
 	{
 		super.EEDelete(parent);
@@ -12,7 +12,7 @@ modded class DebugBuildingTool
 	{
 		// Cleanup	
 		delete m_livespaces;
-
+	
 		// Misc
 		m_rulerCache = "0 0 0";
 		m_linkedHouse = house;

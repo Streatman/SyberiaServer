@@ -6,7 +6,7 @@ class PluginZones extends PluginBase
 	override void OnInit()
 	{
 		MakeDirectory("$profile:Syberia");
-
+	
 		string path = "$profile:Syberia\\ZonesConfig.json";
 		if (FileExist(path))
 		{
@@ -60,11 +60,6 @@ class PluginZones extends PluginBase
 			m_uniqueId = m_uniqueId + 1;
 			m_config.m_customZones.Insert(zone);
 			
-			if (zone.m_gas > 0)
-			{
-				SendToxicZonesToAll();
-			}
-			
 			return zone.m_id;
 		}
 		else
@@ -83,60 +78,12 @@ class PluginZones extends PluginBase
 				if (zone.m_id == id)
 				{
 					m_config.m_customZones.Remove(i);
-
-					if (zone.m_gas > 0)
-					{
-						SendToxicZonesToAll();
-					}
 					
 					delete zone;
 					return;
 				}
 			}
 		}
-	}
-	
-	private void PrepareToxicZonesToSynch(ref array<ref ToxicZone> toxicZones)
-	{
-		if (m_config && m_config.m_customZones)
-		{
-			foreach (ref ZoneDefinition zone : m_config.m_customZones)
-			{
-				if (zone.m_gas > 0)
-				{
-					ref ToxicZone tz = new ToxicZone;
-					tz.m_position = zone.m_position;
-					tz.m_radius = zone.m_radius;
-					toxicZones.Insert(tz);
-				}
-			}
-		}
-	}
-	
-	void SendToxicZonesToPlayer(PlayerIdentity identity)
-	{
-		ref array<ref ToxicZone> toxicZones = new array<ref ToxicZone>;
-		PrepareToxicZonesToSynch(toxicZones);
-		GetSyberiaRPC().SendToClient( SyberiaRPC.SYBRPC_SYNC_TOXIC_ZONES, identity, new Param1<ref array<ref ToxicZone>>( toxicZones ) );
-		
-		foreach (ref ToxicZone dtz : toxicZones)
-		{
-			delete dtz;
-		}
-		delete toxicZones;
-	}
-	
-	void SendToxicZonesToAll()
-	{
-		ref array<ref ToxicZone> toxicZones = new array<ref ToxicZone>;
-		PrepareToxicZonesToSynch(toxicZones);
-		GetSyberiaRPC().SendToAll( SyberiaRPC.SYBRPC_SYNC_TOXIC_ZONES, new Param1<ref array<ref ToxicZone>>( toxicZones ) );
-		
-		foreach (ref ToxicZone dtz : toxicZones)
-		{
-			delete dtz;
-		}
-		delete toxicZones;
 	}
 	
 	void ~PluginZones()

@@ -35,7 +35,7 @@ modded class PluginSyberiaOptions extends PluginBase
 		SyberiaDatabaseInit.InitIfNot();
 		
 		m_groupFactions = new map<string, ref PluginSyberiaOptions_GroupFaction>;
-		if (m_main.m_groups)
+	/*	if (m_main.m_groups)
 		{
 			foreach(string group : m_main.m_groups)
 			{
@@ -50,7 +50,7 @@ modded class PluginSyberiaOptions extends PluginBase
 				}
 			}
 		}
-		
+	*/	
 		m_skillModifiers = new map<int, float>;
 		if (m_main.m_skillModifiers)
 		{

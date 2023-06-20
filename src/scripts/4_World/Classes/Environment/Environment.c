@@ -3,7 +3,7 @@ modded class Environment
 	override protected float GetEnvironmentTemperature()
 	{
 		float temperature = super.GetEnvironmentTemperature();
-
+	
 		if (IsWinter())
 		{			
 			vector player_pos = m_Player.GetPosition();
@@ -19,7 +19,7 @@ modded class Environment
 				temperature += GetSyberiaConfig().m_temperatureSnowDrain;
 			}
 		}
-
+	
 		return temperature;
 	}
 	
@@ -69,7 +69,7 @@ modded class Environment
 			{
 				item = ItemBase.Cast( attachment );
 				int attachmentSlot = attachment.GetInventory().GetSlotId( 0 );
-
+	
 				//! go through all body parts we've defined for that zone (ex.: head, body, feet)
 				for ( int i = 0; i < pBodyPartIds.Count(); i++ )
 				{
@@ -130,7 +130,7 @@ modded class Environment
 						if ( item.GetInventory().GetCargo() )
 						{
 							int inItemCount = item.GetInventory().GetCargo().GetItemCount();
-
+							
 							for ( int j = 0; j < inItemCount; j++ )
 							{
 								ItemBase inItem;
@@ -155,7 +155,7 @@ modded class Environment
 				}
 			}
 		}
-
+	
 		pHeatComfort = ( pHeatComfort / pBodyPartIds.Count() ) * pCoef;
 		pHeat = ( pHeat / pBodyPartIds.Count() ) * pCoef;
 		pHeat += m_Player.GetPerkFloatValue(SyberiaPerkType.SYBPERK_SURVIVAL_FROST_RESIST, 0, 0) * GetSyberiaConfig().m_additionalTemperatureResistForSurvivalSkill;

@@ -52,7 +52,7 @@ modded class ActionLightItemOnFire
 			{
 				fire_source_item.OnIgnitedTargetFailed( ignited_item );
 				ignited_item.OnIgnitedThisFailed( fire_source_item );
-				GetSyberiaRPC().SendToClient(SyberiaRPC.SYBRPC_SCREEN_MESSAGE, action_data.m_Player.GetIdentity(), new Param1<string>("#syb_failed_ignite_skillcheck"));		
+				GetSyberiaRPC().SendToClient(SyberiaRPC.SYBRPC_SCREEN_MESSAGE, action_data.m_Player.GetIdentity(), new Param1<string>("#syb_skillcheck_fire"));		
 				action_data.m_Player.AddExperienceOnIgniteFireplace(0);
 			}
 		}
@@ -76,7 +76,7 @@ modded class ActionLightItemOnFire
 			{
 				fire_source_item.OnIgnitedTargetFailed( ignited_item );
 				ignited_item.OnIgnitedThisFailed( fire_source_item ); 
-				GetSyberiaRPC().SendToClient(SyberiaRPC.SYBRPC_SCREEN_MESSAGE, action_data.m_Player.GetIdentity(), new Param1<string>("#syb_failed_ignite_skillcheck"));
+				GetSyberiaRPC().SendToClient(SyberiaRPC.SYBRPC_SCREEN_MESSAGE, action_data.m_Player.GetIdentity(), new Param1<string>("#syb_skillcheck_fire"));
 				action_data.m_Player.AddExperienceOnIgniteFireplace(-1);	
 			}
 		}

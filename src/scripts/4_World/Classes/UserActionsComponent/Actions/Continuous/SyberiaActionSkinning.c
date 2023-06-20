@@ -1,6 +1,5 @@
 modded class ActionSkinning
 {
-	// Spawns the loot according to the Skinning class in the dead agent's config
 	override void OnFinishProgressServer( ActionData action_data )
 	{
 		float knifeDmgMultiplier = 1;
@@ -10,6 +9,13 @@ modded class ActionSkinning
 			AnimalBase body_EB = AnimalBase.Cast(targetObject);
 			body_EB.SetAsSkinned();
 			body_EB.DoSkinning(action_data.m_Player, action_data.m_MainItem);
+			knifeDmgMultiplier = targetObject.ConfigGetFloat("knifeDamageModifier");
+		}
+		else if (targetObject && targetObject.IsInherited(SurvivorBase))
+		{
+			SurvivorBase body_SB = SurvivorBase.Cast(targetObject);
+			body_SB.SetAsSkinned();
+			body_SB.DoSkinning(action_data.m_Player, action_data.m_MainItem);
 			knifeDmgMultiplier = targetObject.ConfigGetFloat("knifeDamageModifier");
 		}
 		else if (targetObject && targetObject.IsInherited(Edible_Base))

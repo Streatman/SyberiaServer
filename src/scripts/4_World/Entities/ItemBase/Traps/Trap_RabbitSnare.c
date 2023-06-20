@@ -8,7 +8,7 @@ modded class Trap_RabbitSnare
 		super.EEInit();
 		m_CatchesGroundAnimal.Clear();
 		m_MinimalDistanceFromPlayersToCatch = 100;
-
+	
 		m_catchesEntitites = new array<string>;
 		m_catchesEntitites.Insert("DeadRooster");
 		m_catchesEntitites.Insert("DeadChicken_White");

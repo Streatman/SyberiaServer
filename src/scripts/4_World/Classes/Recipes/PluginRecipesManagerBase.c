@@ -19,7 +19,7 @@ modded class PluginRecipesManager
 		{
 			settings.m_allDefaultRecipes.Insert(recipe.ClassName());
 		}
-
+	
 		m_disabledDefaultRecipes = new array<string>;
 		foreach (string disabledRecipeClass : settings.m_disabledDefaultRecipes)
 		{

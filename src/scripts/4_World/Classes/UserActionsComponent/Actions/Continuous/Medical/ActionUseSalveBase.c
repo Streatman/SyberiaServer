@@ -7,7 +7,7 @@ modded class ActionUseSalveBase
 		{
 			salveItem.OnApply(player);
 		}
-
+	
 		if (item.HasQuantity())
 		{
 			item.AddQuantity(-1,true);

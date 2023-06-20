@@ -8,11 +8,11 @@ modded class ActionCheckName
 		{
 			if (ntarget.IsMale())
 			{
-				message = "#syb_inspect_msg1 " + ntarget.m_charProfile.m_name;
+				message = "#syb_inspect_msg1_p1 " + ntarget.m_charProfile.m_name + "#syb_inspect_msg1_p2";
 			}
 			else
 			{
-				message = "#syb_inspect_msg2 " + ntarget.m_charProfile.m_name;
+				message = "#syb_inspect_msg2_p1 " + ntarget.m_charProfile.m_name + "#syb_inspect_msg2_p2";
 			}
 		}
 		else
@@ -31,7 +31,7 @@ modded class ActionSayName
 		PlayerBase ntarget = PlayerBase.Cast( action_data.m_Target.GetObject() );
 		if (ntarget && ntarget.IsAlive() && action_data.m_Player.m_charProfile)
 		{
-			string message = "#syb_ur_greeted " + action_data.m_Player.m_charProfile.m_name;
+			string message = "#syb_action_say_name_p1 " + action_data.m_Player.m_charProfile.m_name + "#syb_action_say_name_p2";
 			GetSyberiaRPC().SendToClient(SyberiaRPC.SYBRPC_SCREEN_MESSAGE, ntarget.GetIdentity(), new Param1<string>(message));
 		}	
 	}

@@ -14,7 +14,6 @@ class SyberiaDatabaseInit
 			// Init queries start
 			CharProfile.InitQueries(queries);
 			PluginSyberiaOptions_GroupFaction.InitQueries(queries);
-			PluginTrader.InitQueries(queries);
 			PluginBuildingSystem.InitQueries(queries);
 			// Init queries end
 			

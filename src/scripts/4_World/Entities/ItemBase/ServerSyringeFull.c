@@ -44,7 +44,7 @@ modded class SyringeFull extends Inventory_Base
 	{
 		if (m_medSolution != "")
 		{
-			if (IsSyringeDirty() && Math.RandomFloat01() < GetSyberiaConfig().m_sepsisDirtySyringeChance)
+			if (IsSyringeDirty() && Math.RandomFloat01() < GetSyberiaConfig().m_sepsisDirtySyringeChance && player.GetSybStats().m_antibioticsLevel < 3)
 			{
 				player.m_BleedingManagerServer.SetBloodInfection(true);
 			}

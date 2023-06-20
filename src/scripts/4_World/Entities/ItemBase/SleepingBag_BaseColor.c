@@ -26,7 +26,7 @@ modded class SleepingBagPlaced_BaseColor
 	{
 		array<Object> nearest_objects = new array<Object>;
 		GetGame().GetObjectsAtPosition ( GetPosition(), 0.5, nearest_objects, null ); 
-
+	
 		for ( int i = 0; i < nearest_objects.Count(); i++ )
 		{
 			Object nearest_object = nearest_objects.Get(i);

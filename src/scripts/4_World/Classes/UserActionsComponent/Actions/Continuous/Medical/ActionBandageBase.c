@@ -9,15 +9,15 @@ modded class ActionBandageBase: ActionContinuousBase
 		
 		float itemSpesisChance = item.GetInfectionChance();
 		float skillSepsisChance = 1.0 - operator.GetPerkFloatValue(SyberiaPerkType.SYBPERK_MEDICINE_SEPSIS_CHANCE_DEC, 0, 0);
-		if (player.HasDirtyHands() && Math.RandomFloat01() < skillSepsisChance)
+		if (player.HasDirtyHands() && Math.RandomFloat01() < skillSepsisChance && player.GetSybStats().m_antibioticsLevel < 3)
 		{
 			player.m_BleedingManagerServer.SetBloodInfection(true);
 		}
-		else if (!player.HasDisinfectedHands() && Math.RandomFloat01() < skillSepsisChance * 0.1)
+	/*	else if (!player.HasDisinfectedHands() && Math.RandomFloat01() < skillSepsisChance * 0.1 && player.GetSybStats().m_antibioticsLevel < 3)
 		{
 			player.m_BleedingManagerServer.SetBloodInfection(true);
 		}
-		else if (Math.RandomFloat01() < itemSpesisChance * skillSepsisChance)
+	*/	else if (Math.RandomFloat01() < itemSpesisChance * skillSepsisChance && player.GetSybStats().m_antibioticsLevel < 3)
 		{
 			player.m_BleedingManagerServer.SetBloodInfection(true);
 		}

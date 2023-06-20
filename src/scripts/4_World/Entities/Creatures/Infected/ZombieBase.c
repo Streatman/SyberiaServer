@@ -27,7 +27,7 @@ modded class ZombieBase extends DayZInfected
 	{
 		array<Object> objects = new array<Object>;
 		GetGame().GetObjectsAtPosition(GetPosition(), GetSyberiaConfig().m_zombieFindHouseDistance, objects, NULL);
-
+	
 		if (objects.Count() > 0)
 		{
 			foreach (Object obj : objects)
@@ -112,7 +112,7 @@ modded class ZombieBase extends DayZInfected
 	override void EEKilled(Object killer)
 	{
 		super.EEKilled(killer);
-				
+		
 		EntityAI entityKiller = EntityAI.Cast(killer);
 		if (entityKiller)
 		{

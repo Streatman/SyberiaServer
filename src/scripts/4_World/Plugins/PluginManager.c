@@ -8,7 +8,7 @@ modded class PluginManager
 			RegisterPlugin("PluginZones", false, true);
 			RegisterPlugin("PluginBuildingSystem", false, true);
 		}
-
+	
 		super.Init();
 	}
 }

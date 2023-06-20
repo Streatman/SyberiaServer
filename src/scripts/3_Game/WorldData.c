@@ -41,12 +41,12 @@ modded class WorldData
 			m_sybTimer = 0;
 			
 			float randShift = Math.RandomFloat01() - 0.5;
-			if ( IsDayTime() ) {
-				// day
+			if ( IsDayTime() )
+			{	// day
 				m_airCurrentTemperature = Math.Clamp(m_airCurrentTemperature + randShift, GetSyberiaConfig().m_airDayTemperatureMin, GetSyberiaConfig().m_airDayTemperatureMax);
 			}
-			else {
-				// night
+			else
+			{	// night
 				m_airCurrentTemperature = Math.Clamp(m_airCurrentTemperature + randShift, GetSyberiaConfig().m_airNightTemperatureMin, GetSyberiaConfig().m_airNightTemperatureMax);
 			}
 		}

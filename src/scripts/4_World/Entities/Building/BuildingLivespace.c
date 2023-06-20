@@ -5,7 +5,7 @@ modded class BuildingLivespace
 	private ref array<string> m_members;
 	private House m_house;
 	private bool m_dbDirty;
-
+	
 	static BuildingLivespace SpawnLivespace(int id, House house, int livespaceId, ref map<string, string> data)
 	{
 		string configPath = "CfgBuildingInfo " + house.GetType() + " Livespace" + livespaceId;
@@ -29,7 +29,7 @@ modded class BuildingLivespace
 		return livespace;
 	}
 	
-   	void Setup(int id, House house, int livespaceId, ref map<string, string> data)
+	void Setup(int id, House house, int livespaceId, ref map<string, string> data)
 	{
 		m_recordId = id;
 		m_house = house;

@@ -41,8 +41,8 @@ modded class PluginLogicPDA
 		if ( !ctx.Read( serverData ) ) return;
 		
 		if (!sender) return;
-
-		int errorCode = 0;		
+	
+		int errorCode = 0;        
 		ref CharProfile profile = GetSyberiaCharacters().Get(sender, errorCode, true);
 		if (!profile) return;
 		
@@ -63,7 +63,7 @@ modded class PluginLogicPDA
 	{ 
 		Param2< int, string > serverData;			
 		if ( !ctx.Read( serverData ) ) return;
-
+	
 		int errorCode = 0;
 		ref CharProfile senderProfile = GetSyberiaCharacters().Get(sender, errorCode, true);
 		if (!senderProfile) return;
@@ -175,7 +175,7 @@ modded class PluginLogicPDA
 	}
 	
 	override void AddContact( ParamsReadContext ctx, PlayerIdentity sender )
-	{		
+	{        
 		Param1< string > serverData;
 		if ( !ctx.Read( serverData ) ) return;
 		string requestName = serverData.param1;
@@ -218,7 +218,7 @@ modded class PluginLogicPDA
 		int errorCode = 0;
 		int action = serverData.param1;
 		string fid = serverData.param2;
-		ref PluginSyberiaOptions_GroupFaction group = GetSyberiaOptions().FindGroupByLeader(sender);		
+		ref PluginSyberiaOptions_GroupFaction group = GetSyberiaOptions().FindGroupByLeader(sender);        
 		if (group == null) return;	
 		
 		if (action == 0)
@@ -255,7 +255,7 @@ modded class PluginLogicPDA
 			
 			ref PluginSyberiaOptions_GroupFaction groupForNewMember = GetSyberiaOptions().FindGroupByMember(newMemberProfile.m_id);
 			if (groupForNewMember != null) return;
-  
+	
 			ref SyberiaPdaGroupMember newMember = new SyberiaPdaGroupMember;
 			newMember.m_id = newMemberProfile.m_id;
 			newMember.m_name = newMemberProfile.m_name;

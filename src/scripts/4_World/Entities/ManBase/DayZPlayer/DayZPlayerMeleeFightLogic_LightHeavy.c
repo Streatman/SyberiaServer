@@ -21,7 +21,7 @@ modded class DayZPlayerMeleeFightLogic_LightHeavy
 				itemInHands.DecreaseHealth( "", "", GetSyberiaConfig().m_damageNonWeaponItemInHandsOnAttack );
 			}
 		}
-		   
+		
 		//If gloves, damage gloves
 		if (affectHands)
 		{
