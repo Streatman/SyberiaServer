@@ -1,5 +1,7 @@
 modded class BleedingSourcesManagerServer
 {
+	protected ref DayZPlayerMeleeFightLogic_LightHeavy	m_MeleeFightLogic;
+	
 	void SetZVirus(bool value)
 	{
 		if (value)
@@ -296,23 +298,30 @@ modded class BleedingSourcesManagerServer
 			if (!blockZedDamage && Math.RandomFloat01() < GetSyberiaConfig().m_bleedingZombieHitChance)
 			{
 				zvirusInfectionChance = zvirusInfectionChance * 1.5;
-				AttemptAddBleedingSource(component);
-				if (Math.RandomFloat01() < GetSyberiaConfig().m_sepsisZombieHitChance)
+				
+				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.2) )
 				{
-					SetBloodInfection(true);
+					AttemptAddBleedingSource(component);
+					if (Math.RandomFloat01() < GetSyberiaConfig().m_sepsisZombieHitChance)
+					{
+						SetBloodInfection(true);
+					}
 				}
 			}
 			else if (Math.RandomFloat01() < zedHematomaChance)
 			{
-				AddHematomaHit();
-				if (zone == "Head" && Math.RandomFloat01() < 0.3 && Math.RandomFloat01() > meleeHeadProtection)
+				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.2) )
 				{
-					SetConcussionHit(true, false);
-				}
-				
-				if (m_Player.IsFaceBlocked(false))
-				{
-					zvirusInfectionChance = zvirusInfectionChance * 0.5;
+					AddHematomaHit();
+					if (zone == "Head" && Math.RandomFloat01() < 0.3 && Math.RandomFloat01() > meleeHeadProtection)
+					{
+						SetConcussionHit(true, false);
+					}
+					
+					if (m_Player.IsFaceBlocked(true))
+					{
+						zvirusInfectionChance = zvirusInfectionChance * 0.5;
+					}
 				}
 			}
 			
@@ -323,12 +332,18 @@ modded class BleedingSourcesManagerServer
 			
 			if (!blockZedDamage && Math.RandomFloat01() < GetSyberiaConfig().m_bleedingKnifehitZombieChance)
 			{
-				AddKnifeHit();
+				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.2) )
+				{
+					AddKnifeHit();
+				}
 			}
 			
 			if (Math.RandomFloat01() < GetSyberiaConfig().m_concussionZombieHitChance && Math.RandomFloat01() > meleeHeadProtection)
 			{
-				SetConcussionHit(true, false);
+				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.2) )
+				{
+					SetConcussionHit(true, false);
+				}
 			}
 			
 			m_Player.AddMindDegradation( GetSyberiaConfig().m_zombieHitDecreaseMind[0], GetSyberiaConfig().m_zombieHitDecreaseMind[1] );
@@ -372,10 +387,13 @@ modded class BleedingSourcesManagerServer
 			float affectSkeleton = GetGame().ConfigGetFloat( "CfgAmmo " + ammo + " affectSkeleton" );
 			if (affectSkeleton > 1 && !ammo.Contains("Axe"))
 			{
-				AddHematomaHit();
-				if (zone == "Head" && Math.RandomFloat01() > meleeHeadProtection)
+				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.5) )
 				{
-					SetConcussionHit(true);
+					AddHematomaHit();
+					if (zone == "Head" && Math.RandomFloat01() > meleeHeadProtection)
+					{
+						SetConcussionHit(true);
+					}
 				}
 			}
 			else if (!blockMeleeDamage) 
@@ -384,10 +402,13 @@ modded class BleedingSourcesManagerServer
 				{
 					if (source.IsAnimal() || ammo.Contains("_Heavy") || Math.RandomFloat01() >= 0.4)
 					{
-						AddKnifeHit();
-						if (zone == "Torso" && Math.RandomFloat01() < GetSyberiaConfig().m_visceraKnifehitTorsoChance)
+						if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.5) )
 						{
-							AddVisceraHit();
+							AddKnifeHit();
+							if (zone == "Torso" && Math.RandomFloat01() < GetSyberiaConfig().m_visceraKnifehitTorsoChance)
+							{
+								AddVisceraHit();
+							}
 						}
 					}
 					else
