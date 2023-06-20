@@ -179,7 +179,6 @@ class CfgSyberia
 	class IngameSystem
 	{
 		bookPagesCountToCut = 10;
-		gasMaskFilterDegradationInToxicZone = -0.33;
 		gasMaskFilterDegradationInRadZone = -0.2;
 		gasMaskFilterDegradationDefault = -0.05;
 		igniteFireplaceBaseSkillcheckChance = 0.2;

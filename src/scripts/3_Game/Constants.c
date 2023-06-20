@@ -154,7 +154,6 @@ modded class SyberiaConfig
 	
 	// InGame System
 	int m_bookPagesCountToCut;
-	float m_gasMaskFilterDegradationInToxicZone;
 	float m_gasMaskFilterDegradationInRadZone;
 	float m_gasMaskFilterDegradationDefault;
 	float m_igniteFireplaceBaseSkillcheckChance;
@@ -359,7 +358,6 @@ modded class SyberiaConfig
 		
 		// Others
 		m_bookPagesCountToCut = ConfigGetInt("CfgSyberia IngameSystem bookPagesCountToCut");
-		m_gasMaskFilterDegradationInToxicZone = ConfigGetFloat("CfgSyberia IngameSystem gasMaskFilterDegradationInToxicZone");
 		m_gasMaskFilterDegradationInRadZone = ConfigGetFloat("CfgSyberia IngameSystem gasMaskFilterDegradationInRadZone");
 		m_gasMaskFilterDegradationDefault = ConfigGetFloat("CfgSyberia IngameSystem gasMaskFilterDegradationDefault");
 		m_igniteFireplaceBaseSkillcheckChance = ConfigGetFloat("CfgSyberia IngameSystem igniteFireplaceBaseSkillcheckChance");

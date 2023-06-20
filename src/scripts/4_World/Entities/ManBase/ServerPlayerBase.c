@@ -59,7 +59,6 @@ modded class PlayerBase
 	float m_zoneGasTotalValue = 0;
 	float m_zoneRadTotalValue = 0;
 	float m_zonePsiTotalValue = 0;
-	int m_zoneToxicEffect = 0;
 	float m_radiationDose = 0;
 	bool m_isAlreadyDead = false;
 	float m_lastHealth;
@@ -644,50 +643,12 @@ modded class PlayerBase
 		int waterDrain;
 		int energyDrain;
 		
-		if (m_zoneToxicEffect > 0)
-		{
-			if (m_zoneToxicEffect < 10)
-			{
-				if (m_zoneToxicEffect % 2 == 0)
-				{
-					GetSymptomManager().QueueUpPrimarySymptom(SymptomIDs.SYMPTOM_COUGH);
-				}
-			}
-			else
-			{			
-				if (m_zoneToxicEffect % 10 == 0)
-				{
-					SymptomBase symptom1 = GetSymptomManager().QueueUpPrimarySymptom(SymptomIDs.SYMPTOM_VOMIT);				
-					if( symptom1 )
-					{
-						symptom1.SetDuration(5);
-						
-						waterDrain = GetSyberiaConfig().m_stomatchpoisonWaterDrainFromVomit[1];
-						energyDrain = GetSyberiaConfig().m_stomatchpoisonEnergyDrainFromVomit[1];
-		
-						if (GetStatWater().Get() > waterDrain)
-							GetStatWater().Add(-1 * waterDrain);
-						
-						if (GetStatEnergy().Get() > energyDrain)
-							GetStatEnergy().Add(-1 * energyDrain);
-					}
-				}
-				
-				DecreaseHealth("", "Health", 1);
-				SetSynchDirty();
-			}
-		}
-		
 		bool filterProtection = false;
 		ItemBase filter = GetGasMaskFilter();
 		if (filter && filter.GetQuantity() > 0)
 		{
 			filterProtection = true;
-			if (m_zoneGasTotalValue > 0)
-			{
-				filter.AddQuantity(GetSyberiaConfig().m_gasMaskFilterDegradationInToxicZone);				
-			}
-			else if (m_zoneRadTotalValue > 0)
+			if (m_zoneRadTotalValue > 0)
 			{
 				filter.AddQuantity(GetSyberiaConfig().m_gasMaskFilterDegradationInRadZone);	
 			}
@@ -695,15 +656,6 @@ modded class PlayerBase
 			{
 				filter.AddQuantity(GetSyberiaConfig().m_gasMaskFilterDegradationDefault);	
 			}
-		}
-		
-		if (m_zoneGasTotalValue > 0 && !filterProtection)
-		{
-			m_zoneToxicEffect = m_zoneToxicEffect + 1;
-		}
-		else if (m_zoneToxicEffect > 0)
-		{
-			m_zoneToxicEffect = m_zoneToxicEffect - 1;
 		}
 		
 		if (m_zoneRadTotalValue > 0)
