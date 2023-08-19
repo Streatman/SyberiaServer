@@ -1289,6 +1289,7 @@ modded class PlayerBase
 		float OD_PainkillerLevel;
 		float OD_StomatchhealLevel;
 		float OD_AntibioticLevel;
+		float OD_HemologicShock;
 		float OD_BloodHemostatic;
 		float OD_BloodHematopoiesis;
 		float OD_HematomaHeal;
@@ -1334,12 +1335,13 @@ modded class PlayerBase
 			}
 		}
 		
-	/*	int medHemologicShock = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medHemologicShock" );
+		int medHemologicShock = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medHemologicShock" );
 		if (medHemologicShock > 0)
 		{
-			m_hemologicShock = true;
+		//	m_hemologicShock = true;
+			OD_HemologicShock = overdosedIncrement;
 		}
-	*/	
+		
 		int medRemoveSepsis = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medRemoveSepsis" );
 		if (medRemoveSepsis > 0)
 		{
@@ -1459,7 +1461,7 @@ modded class PlayerBase
 			}
 		}
 		
-		overdosedIncrement = OD_PainkillerLevel + OD_StomatchhealLevel + OD_AntibioticLevel + OD_BloodHemostatic + OD_BloodHematopoiesis + OD_HematomaHeal + OD_AdrenalinLevel + OD_RadprotectLevel + OD_AntidepLevel;
+		overdosedIncrement = OD_PainkillerLevel + OD_StomatchhealLevel + OD_AntibioticLevel + OD_HemologicShock + OD_BloodHemostatic + OD_BloodHematopoiesis + OD_HematomaHeal + OD_AdrenalinLevel + OD_RadprotectLevel + OD_AntidepLevel;
 		m_overdosedValue = m_overdosedValue + overdosedIncrement;
 		MarkSybStatsDirty(7);
 	}

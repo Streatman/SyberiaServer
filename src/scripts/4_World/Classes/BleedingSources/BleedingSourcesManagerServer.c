@@ -259,17 +259,39 @@ modded class BleedingSourcesManagerServer
 	
 	override void ProcessHit(float damage, EntityAI source, int component, string zone, string ammo, vector modelPos)
 	{
-		//SybLogSrv("ProcessHit => Damage: " + damage + "; Source: " + source.GetType() + "; Component: " + component + "; Zone: " + zone + "; Ammo: " + ammo);
+		//SybLogSrv("ProcessHit => Damage: " + damage + "; Source: " + source.GetType() + "; Component: " + component + "; zone: " + zone + "; Ammo: " + ammo);
 		
 		float bleed_threshold = GetGame().ConfigGetFloat( "CfgAmmo " + ammo + " DamageApplied " + "bleedThreshold" );		
 		string ammoType = GetGame().ConfigGetTextOut( "CfgAmmo " + ammo + " DamageApplied " + "type" );
 		bleed_threshold = Math.Clamp(bleed_threshold,0,1);
 		
-		float meleeHeadProtection = 0;
+		float HeadProtectionMelee = 0;
 		ItemBase helmet = m_Player.GetItemOnSlot("Headgear");
-		if (helmet)
+		ItemBase vest = m_Player.GetItemOnSlot("Vest");
+		ItemBase top = m_Player.GetItemOnSlot("Body");
+		ItemBase pants = m_Player.GetItemOnSlot("Legs");
+		if ( helmet )
 		{
-			meleeHeadProtection = helmet.ConfigGetFloat("meleeProtection");
+			HeadProtectionMelee = helmet.ConfigGetFloat("meleeProtection");
+			float HeadProtectionProjectile = GetGame().ConfigGetFloat( "CfgVehicles " + helmet.GetType() + " firearmProtection" );
+		}
+		if ( vest && !vest.IsRuined() )
+		{
+			float TorsoProtectionInfected = GetGame().ConfigGetFloat( "CfgVehicles " + vest.GetType() + " DamageSystem GlobalArmor Infected Blood damage" );
+			float TorsoProtectionMelee = GetGame().ConfigGetFloat( "CfgVehicles " + vest.GetType() + " DamageSystem GlobalArmor Melee Blood damage" );
+			float TorsoProtectionProjectile = GetGame().ConfigGetFloat( "CfgVehicles " + vest.GetType() + " bulletProofProtection" );
+		}
+		if ( top && !top.IsRuined() )
+		{
+			float ArmProtectionInfected = GetGame().ConfigGetFloat( "CfgVehicles " + top.GetType() + " DamageSystem GlobalArmor Infected Blood damage" );
+			float ArmProtectionMelee = GetGame().ConfigGetFloat( "CfgVehicles " + top.GetType() + " DamageSystem GlobalArmor Melee Blood damage" );
+			float ArmProtectionProjectile = GetGame().ConfigGetFloat( "CfgVehicles " + top.GetType() + " bulletProofProtection" );
+		}
+		if ( pants && !pants.IsRuined() )
+		{
+			float LegProtectionInfected = GetGame().ConfigGetFloat( "CfgVehicles " + pants.GetType() + " DamageSystem GlobalArmor Infected Blood damage" );
+			float LegProtectionMelee = GetGame().ConfigGetFloat( "CfgVehicles " + pants.GetType() + " DamageSystem GlobalArmor Melee Blood damage" );
+			float LegProtectionProjectile = GetGame().ConfigGetFloat( "CfgVehicles " + pants.GetType() + " bulletProofProtection" );
 		}
 		
 		if (source.IsZombie())
@@ -277,14 +299,23 @@ modded class BleedingSourcesManagerServer
 			bool blockZedDamage = false;
 			if (zone == "Torso")
 			{
-				ItemBase itemCheckZedVest = m_Player.GetItemOnSlot("Vest");
-				if (itemCheckZedVest && !itemCheckZedVest.IsRuined())
+				if ( TorsoProtectionInfected < 0.1 || ArmProtectionInfected < 0.1 )
 				{
-					float plateArmorZed = GetGame().ConfigGetFloat( "CfgVehicles " + itemCheckZedVest.GetType() + " DamageSystem GlobalArmor Melee Blood damage" );
-					if (plateArmorZed < 0.1)
-					{
-						blockZedDamage = true;
-					}
+					blockZedDamage = true;
+				}
+			}
+			if (zone == "LeftArm" || zone == "RightArm")
+			{
+				if ( ArmProtectionInfected < 0.1 )
+				{
+					blockZedDamage = true;
+				}
+			}
+			if (zone == "LeftLeg" || zone == "RightLeg")
+			{
+				if ( LegProtectionInfected < 0.1 )
+				{
+					blockZedDamage = true;
 				}
 			}
 			
@@ -313,7 +344,7 @@ modded class BleedingSourcesManagerServer
 				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.2) )
 				{
 					AddHematomaHit();
-					if (zone == "Head" && Math.RandomFloat01() < 0.3 && Math.RandomFloat01() > meleeHeadProtection)
+					if (zone == "Head" && Math.RandomFloat01() < 0.3 && Math.RandomFloat01() > HeadProtectionMelee)
 					{
 						SetConcussionHit(true, false);
 					}
@@ -335,10 +366,14 @@ modded class BleedingSourcesManagerServer
 				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.2) )
 				{
 					AddKnifeHit();
+					if (Math.RandomFloat01() < GetSyberiaConfig().m_sepsisZombieHitChance && m_Player.GetSybStats().m_antibioticsLevel < 3)
+					{
+						SetBloodInfection(true);
+					}
 				}
 			}
 			
-			if (Math.RandomFloat01() < GetSyberiaConfig().m_concussionZombieHitChance && Math.RandomFloat01() > meleeHeadProtection)
+			if (Math.RandomFloat01() < GetSyberiaConfig().m_concussionZombieHitChance && Math.RandomFloat01() > HeadProtectionMelee)
 			{
 				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.2) )
 				{
@@ -355,52 +390,65 @@ modded class BleedingSourcesManagerServer
 		else if ( ammo == "BearTrapHit" )
 		{
 			AddKnifeHit();
+			if (Math.RandomFloat01() < 0.05 && m_Player.GetSybStats().m_antibioticsLevel < 3)
+			{
+				SetBloodInfection(true);
+			}
 		}
 		else if ( ammo == "BarbedWireHit" )
 		{
 			if (Math.RandomFloat01() < 0.2)
 			{
 				AttemptAddBleedingSource(component);
-				
 				if (Math.RandomFloat01() < 0.05 && m_Player.GetSybStats().m_antibioticsLevel < 3)
 				{
 					SetBloodInfection(true);
 				}
 			}
 		}
-		else if (ammoType == "Melee")
+		else if ( ammoType == "Melee" )
 		{
 			bool blockMeleeDamage = false;
 			if (zone == "Torso")
 			{
-				ItemBase itemCheckMeleVest = m_Player.GetItemOnSlot("Vest");
-				if (itemCheckMeleVest && !itemCheckMeleVest.IsRuined())
+				if ( TorsoProtectionMelee < 0.1 || ArmProtectionMelee < 0.1 )
 				{
-					float plateArmorMele = GetGame().ConfigGetFloat( "CfgVehicles " + itemCheckMeleVest.GetType() + " DamageSystem GlobalArmor Melee Blood damage" );
-					if (plateArmorMele < 0.1)
-					{
-						blockMeleeDamage = true;
-					}
+					blockMeleeDamage = true;
+				}
+			}
+			if (zone == "LeftArm" || zone == "RightArm")
+			{
+				if ( ArmProtectionMelee < 0.1 )
+				{
+					blockMeleeDamage = true;
+				}
+			}
+			if (zone == "LeftLeg" || zone == "RightLeg")
+			{
+				if ( LegProtectionMelee < 0.1 )
+				{
+					blockMeleeDamage = true;
 				}
 			}
 			
 			float affectSkeleton = GetGame().ConfigGetFloat( "CfgAmmo " + ammo + " affectSkeleton" );
-			if (affectSkeleton > 1 && !ammo.Contains("Axe") && !ammo.Contains("Hatchet"))
+			float bloodDamage = GetGame().ConfigGetFloat( "CfgAmmo " + ammo + " DamageApplied Blood" );
+			if ( affectSkeleton > 1 && !bloodDamage > 0 )
 			{
 				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.5) )
 				{
 					AddHematomaHit();
-					if (zone == "Head" && Math.RandomFloat01() > meleeHeadProtection)
+					if (zone == "Head" && Math.RandomFloat01() > HeadProtectionMelee)
 					{
 						SetConcussionHit(true);
 					}
 				}
 			}
-			else if (!blockMeleeDamage) 
+			else if (!blockMeleeDamage)
 			{
 				if (bleed_threshold >= Math.RandomFloat01())
 				{
-					if (!source.IsAnimal() && (ammo.Contains("_Heavy") || Math.RandomFloat01() >= 0.4))
+					if ( !source.IsAnimal() && (ammo.Contains("_Heavy") || Math.RandomFloat01() >= 0.4) )
 					{
 						if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.5) )
 						{
@@ -434,61 +482,77 @@ modded class BleedingSourcesManagerServer
 				}
 			}
 		}
-		else if (ammoType == "Projectile")
+		else if ( ammoType == "Projectile" )
 		{
-			if (zone == "Head" || zone == "Brain")
+			float distanceMod = Math.Clamp(1300 - vector.Distance(source.GetPosition(), m_Player.GetPosition()), 100, 1000) * 0.001;
+			float bulletSpeed = GetGame().ConfigGetFloat( "CfgAmmo " + ammo + " typicalSpeed" ) * 0.1;
+			float bulletCaliber = GetGame().ConfigGetFloat( "CfgAmmo " + ammo + " caliber" );
+			float bulletWeight = GetGame().ConfigGetFloat( "CfgAmmo " + ammo + " weight" );
+			float injectModifier = (bulletSpeed * bulletCaliber * bulletWeight * distanceMod) * GetSyberiaConfig().m_bodyGuardModifier;
+			
+			if ( zone == "Head" || zone == "Brain" )
 			{
-				SetConcussionHit(true);
+				if ( HeadProtectionProjectile < injectModifier )
+				{
+					SetConcussionHit(true);
+				}
 			}
 			
 			bool isBulletStopped = false;
-			if (zone == "Torso")
+			if ( zone == "Torso" )
 			{
-				ItemBase itemCheck = m_Player.GetItemOnSlot("Vest");
-				if (itemCheck && !itemCheck.IsRuined())
+				if (TorsoProtectionProjectile > injectModifier || ArmProtectionProjectile > injectModifier )
 				{
-					float distanceMod = Math.Clamp(1300 - vector.Distance(source.GetPosition(), m_Player.GetPosition()), 100, 1000) * 0.001;
-					float bulletSpeed = GetGame().ConfigGetFloat( "CfgAmmo " + ammo + " typicalSpeed" ) * 0.1;
-					float bulletCaliber = GetGame().ConfigGetFloat( "CfgAmmo " + ammo + " caliber" );
-					float bulletWeight = GetGame().ConfigGetFloat( "CfgAmmo " + ammo + " weight" );
-					float plateArmor = GetGame().ConfigGetFloat( "CfgVehicles " + itemCheck.GetType() + " bulletProofProtection" );
-					float injectModifier = (bulletSpeed * bulletCaliber * bulletWeight * distanceMod) * GetSyberiaConfig().m_bodyGuardModifier;
-					//SybLogSrv("BODY ARMOR VEST PROJECTILE GUARD TEST: " + plateArmor + " / " + injectModifier);
-					if (plateArmor > injectModifier)
-					{
-						// Bullet stoped by armor
-						isBulletStopped = true;
-					}
+					isBulletStopped = true;
 				}
-				
-				if (!isBulletStopped && Math.RandomFloat01() < GetSyberiaConfig().m_visceraBullethitTorsoChance)
+			}
+			if (zone == "LeftArm" || zone == "RightArm")
+			{
+				if ( ArmProtectionProjectile > injectModifier )
 				{
-					AddVisceraHit();
+					isBulletStopped = true;
+				}
+			}
+			if (zone == "LeftLeg" || zone == "RightLeg")
+			{
+				if ( LegProtectionProjectile > injectModifier )
+				{
+					isBulletStopped = true;
 				}
 			}
 			
-			if (isBulletStopped)
+			if ( isBulletStopped )
 			{
 				AddHematomaHit();
 			}
-			else if (bleed_threshold >= Math.RandomFloat01())
-			{
-				AddBulletHit();
-			}
 			else
 			{
-				AttemptAddBleedingSource(component);
-			}
-			
-			if (!isBulletStopped)
-			{
-				if (Math.RandomFloat01() < GetSyberiaConfig().m_sepsisBulletHitChance && m_Player.GetSybStats().m_antibioticsLevel < 3)
+				if ( bleed_threshold >= Math.RandomFloat01() )
+				{
+					if ( ammo.Contains("HuntingBolt") || ammo.Contains("ImprovisedBolt_1") || ammo.Contains("ImprovisedBolt_2") )
+					{
+						AddKnifeHit();
+					}
+					else
+					{
+						AddBulletHit();
+					}
+					if ( zone == "Torso" && Math.RandomFloat01() < GetSyberiaConfig().m_visceraBullethitTorsoChance )
+					{
+						AddVisceraHit();
+					}
+				}
+				else
+				{
+					AttemptAddBleedingSource(component);
+				}
+				if ( Math.RandomFloat01() < GetSyberiaConfig().m_sepsisBulletHitChance && m_Player.GetSybStats().m_antibioticsLevel < 3 )
 				{
 					SetBloodInfection(true);
 				}
 			}
 		}
-		else if (ammoType == "FragGrenade")
+		else if ( ammoType == "FragGrenade" )
 		{
 			if (!ammo.Contains("FlashGrenade"))
 			{
