@@ -431,7 +431,7 @@ modded class PlayerBase
 		float landDiff;
 		pos2d[1] = 0;
 		
-		if (pluginZones.m_config.m_customZones)
+	/*	if (pluginZones.m_config.m_customZones)
 		{
 			foreach (ref ZoneDefinition zone : pluginZones.m_config.m_customZones)
 			{
@@ -459,7 +459,7 @@ modded class PlayerBase
 		{
 			currentZones.Insert(pluginZones.m_config.m_defaultZone);
 		}
-		
+	*/	
 		int nullCheckIndex = 0;
 		ref ZoneImplementation zoneImpl;
 		while (nullCheckIndex < m_zones.Count())
