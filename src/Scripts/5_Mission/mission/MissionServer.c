@@ -69,7 +69,8 @@ modded class MissionServer
 		int errorCode = 0;
 		string classname;
 		bool ghostMode = false;
-		vector startPos = "0 0 0";
+		vector debugPos = "0 0 0";
+		vector startPos = debugPos;
 		ref array<string> startEquipClothes = null;
 		ref array<string> startEquipGuns = null;
 		ref array<string> startEquipItems = null;
@@ -85,14 +86,15 @@ modded class MissionServer
 				profile.m_respawnCounter = profile.m_respawnCounter + 1;
 				
 				if (profile.m_startGear)
-				{			
+				{
 					ref PluginSyberiaOptions_GroupFaction faction = GetSyberiaOptions().FindGroupByMember(profile.m_id);
-					allowedEquip = GetSyberiaOptions().GetCharacterAllowedEquipment(identity, profile, faction);					
+					allowedEquip = GetSyberiaOptions().GetCharacterAllowedEquipment(identity, profile, faction);
 					if (allowedEquip.Count() == profile.m_startGear.Count())
 					{
 						int itemIndex = -1;
 						int spawnPointId = profile.m_startGear.Get(SyberiaScreenEquipPages.SYBSEP_SPAWN_PAGE);
-						startPos = GetSyberiaOptions().GetCharacterSpawnpoint(identity, profile, faction, spawnPointId).CalculateSpawnpoint();
+					//	startPos = GetSyberiaOptions().GetCharacterSpawnpoint(identity, profile, faction, spawnPointId).CalculateSpawnpoint();
+						startPos = pos;
 						
 						startEquipClothes = new array<string>;
 						for (int i = SyberiaScreenEquipPages.SYBSEP_BODY_PAGE; i <= SyberiaScreenEquipPages.SYBSEP_BACKPACK_PAGE; i++)
@@ -111,7 +113,7 @@ modded class MissionServer
 							startEquipGuns.Insert(allowedEquip.Get(SyberiaScreenEquipPages.SYBSEP_WEAPON_PAGE).Get(itemIndex));
 						}
 						
-						itemIndex = profile.m_startGear.Get(SyberiaScreenEquipPages.SYBSEP_ITEMS_PAGE);				
+						itemIndex = profile.m_startGear.Get(SyberiaScreenEquipPages.SYBSEP_ITEMS_PAGE);
 						startEquipItems = GetSyberiaOptions().GetCharacterLoadoutItems(identity, profile, faction, itemIndex);
 						
 						itemIndex = profile.m_startGear.Get(SyberiaScreenEquipPages.SYBSEP_SPECIAL_PAGE);
@@ -170,13 +172,12 @@ modded class MissionServer
 			delete newcharParams;
 			SybLogSrv("Send SYBRPC_NEWCHAR_SCREEN_OPEN RPC.");
 		}
-		
 		PlayerBase player = CreateCharacter(identity, startPos, ctx, classname);
 		if (player)
 		{
 			if (ghostMode)
 			{
-				player.SetPosition("0 0 0");
+				player.SetPosition(debugPos);
 				player.GetInputController().SetDisabled(true);
 				player.SetAllowDamage(false);
 			}
@@ -355,7 +356,7 @@ modded class MissionServer
 		if (player)
 		{
 			player.SetAllowDamage(true);
-			player.SetHealth(0.0);
+			player.SetHealth01("GlobalHealth","Health",0);
 		}
 		else if (identity)
 		{
@@ -373,7 +374,7 @@ modded class MissionServer
 		if (!profile)
 		{
 			Param1<ref RpcCreateNewCharContainer> clientData;
-			if ( !ctx.Read( clientData ) ) return;	
+			if ( !ctx.Read( clientData ) ) return;
 			
 			string newFullName = clientData.param1.m_name;
 			if (CharacterMetadata.ValidateCharacterNameFull(newFullName))
@@ -382,7 +383,7 @@ modded class MissionServer
 				profile.m_uid = sender.GetId();
 				profile.m_name = newFullName;
 				profile.m_souls = GetSyberiaOptions().m_main.m_startSoulsCount;
-							
+				
 				if (clientData.param1.m_isMale)
 				{
 					if (clientData.param1.m_faceId >= 0 && clientData.param1.m_faceId < m_maleCharactersPool.Count())
@@ -411,7 +412,7 @@ modded class MissionServer
 				}
 				
 				int charScore = GetSyberiaOptions().m_main.m_newchar_points;
-				if (charScore < clientData.param1.m_skills.GetTotalScore()) 
+				if (charScore < clientData.param1.m_skills.GetTotalScore())
 				{
 					GetGame().RemoveFromReconnectCache(sender.GetId());
 					GetGame().DisconnectPlayer(sender, sender.GetId());
@@ -419,12 +420,12 @@ modded class MissionServer
 				}
 				
 				profile.m_skills = clientData.param1.m_skills;
-				GetSyberiaCharacters().Create(sender, profile, this, "OnCreateNewCharRequest_CreateChar");	
+				GetSyberiaCharacters().Create(sender, profile, this, "OnCreateNewCharRequest_CreateChar");
 			}
 			else
 			{
 				OnCreateNewCharRequest_CreateChar(sender, false);
-			}		
+			}
 		}
 		else
 		{
@@ -444,7 +445,7 @@ modded class MissionServer
 		else
 		{
 			SybLogSrv("Failed to create new character");
-			GetSyberiaRPC().SendToClient(SyberiaRPC.SYBRPC_CREATENEWCHAR_ERROR, sender, new Param1<int>(0));			
+			GetSyberiaRPC().SendToClient(SyberiaRPC.SYBRPC_CREATENEWCHAR_ERROR, sender, new Param1<int>(0));
 		}
 	}
 	
@@ -456,7 +457,7 @@ modded class MissionServer
 		if (profile && profile.m_needToConfigureGear)
 		{
 			Param1<ref array<int>> clientData;
-			if ( !ctx.Read( clientData ) ) return;	
+			if ( !ctx.Read( clientData ) ) return;
 			
 			ref array<int> selectedIndexes = clientData.param1;
 			if (selectedIndexes.Count() != GetSyberiaOptions().GetCharacterAllowedEquipmentSize())
@@ -567,17 +568,6 @@ modded class MissionServer
 		{
 			GetGame().RemoveFromReconnectCache(sender.GetId());
 			GetGame().DisconnectPlayer(sender, sender.GetId());
-		}
-	}
-	
-	override void OnMissionStart() 
-	{
-		super.OnMissionStart();
-		
-		PluginBuildingSystem buildingPlugin = PluginBuildingSystem.Cast(GetPlugin(PluginBuildingSystem));
-		if (buildingPlugin)
-		{
-			buildingPlugin.LoadLivespaces();
 		}
 	}
 };

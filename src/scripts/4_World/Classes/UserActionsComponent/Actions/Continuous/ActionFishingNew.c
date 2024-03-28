@@ -1,6 +1,5 @@
 modded class ActionFishingNewCB : ActionContinuousBaseCB 
 {
-    
 	override void HandleFishingResultSuccess()
 	{
 		if (!GetGame().IsMultiplayer() || GetGame().IsServer())
@@ -23,7 +22,7 @@ modded class ActionFishingNewCB : ActionContinuousBaseCB
 			float rnd = Math.RandomFloatInclusive(0.0,1.0);
 			if (rnd > m_ActionDataFishing.FISHING_GARBAGE_CHANCE)
 			{
-                m_ActionDataFishing.m_Player.AddExperience(SyberiaSkillType.SYBSKILL_SURVIVAL, GetSyberiaConfig().m_skillsExpSurvivalCatchFish);
+				m_ActionDataFishing.m_Player.AddExperience(SyberiaSkillType.SYBSKILL_SURVIVAL, GetSyberiaConfig().m_skillsExpSurvivalCatchFish);
 				if (m_ActionDataFishing.m_IsSurfaceSea)
 					fish = ItemBase.Cast(GetGame().CreateObjectEx("Mackerel",m_ActionDataFishing.m_Player.GetPosition(), ECE_PLACE_ON_SURFACE));
 				else

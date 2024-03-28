@@ -5,6 +5,7 @@ class CfgPatches
 		units[]={};
 		requiredAddons[]=
 		{
+			"Season_Configs",
 			"DZ_Data",
 			"DZ_Scripts",
 			"IntenZ_SyberiaClient",
@@ -149,8 +150,8 @@ class CfgSyberia
 		surgerySideEffectBloodLoseCount=500;
 		surgerySideEffectHealthLoseCount=20;
 		radiationDoseDecrementPerSec[]={ -0.02, -0.08, -0.2, -0.5 };
-		radiationLevels[]={ 20, 60, 120 };
-		radiationHealthDamage[]={ 0.09, 0.2, 0.8 };
+		radiationLevels[]={ 10, 40, 60, 70 };
+		radiationHealthDamage[]={ 0, 0.05, 0.2, 1.0 };
 		radiationSleepingDec=3;
 		shockDecrementOnLowHealthAndBlood=1.5;
 		zombieHitDecreaseMind[]= { 0.4,  5}; // amount, time

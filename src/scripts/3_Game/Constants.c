@@ -1,10 +1,10 @@
 const string SyberiaServer_ModPreffix = "[SYBERIA SERVER] ";
 const bool SyberiaServer_DebugMode = true;
-const string Syberia_ServerVersion = "OPEN BETA 0.50B";
+const string Syberia_ServerVersion = "OPEN BETA 0.50D";
 
 modded class SyberiaVersionChecker
 {
-	override void CLIENT_AND_SERVER_MODS_VERSION_MISSMATCH_0_50B() {}
+	override void CLIENT_AND_SERVER_MODS_VERSION_MISSMATCH_0_50D() {}
 }
 
 void SybLogSrv(string message)
@@ -203,7 +203,7 @@ modded class SyberiaConfig
 	float m_skillsExpSurvivalCraftTool;
 	
 	// World system
-	bool m_isWinterMap;
+//	bool m_isWinterMap;
 	float m_airDayTemperatureMin;
 	float m_airDayTemperatureMax;
 	float m_airNightTemperatureMin;
@@ -332,8 +332,8 @@ modded class SyberiaConfig
 		m_surgerySideEffectBloodLoseCount = ConfigGetFloat("CfgSyberia MedicineSystem surgerySideEffectBloodLoseCount");
 		m_surgerySideEffectHealthLoseCount = ConfigGetFloat("CfgSyberia MedicineSystem surgerySideEffectHealthLoseCount");
 		ConfigGetFloatArray("CfgSyberia MedicineSystem radiationDoseDecrementPerSec", m_radiationDoseDecrementPerSec, 4);	
-		ConfigGetFloatArray("CfgSyberia MedicineSystem radiationLevels", m_radiationLevels, 3);	
-		ConfigGetFloatArray("CfgSyberia MedicineSystem radiationHealthDamage", m_radiationHealthDamage, 3);
+		ConfigGetFloatArray("CfgSyberia MedicineSystem radiationLevels", m_radiationLevels, 4);	
+		ConfigGetFloatArray("CfgSyberia MedicineSystem radiationHealthDamage", m_radiationHealthDamage, 4);
 		m_radiationSleepingDec = ConfigGetFloat("CfgSyberia MedicineSystem radiationSleepingDec");
 		m_shockDecrementOnLowHealthAndBlood = ConfigGetFloat("CfgSyberia MedicineSystem shockDecrementOnLowHealthAndBlood");
 		ConfigGetFloatArray("CfgSyberia MedicineSystem zombieHitDecreaseMind", m_zombieHitDecreaseMind, 2);	
@@ -412,129 +412,165 @@ modded class SyberiaConfig
 		m_skillsExpSurvivalIgniteFireFailed = ConfigGetFloat("CfgSyberia SkillsExperienceSystem skillsExpSurvivalIgniteFireFailed");
 		
 		// World system
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem winterWorld")) {
+	/*	if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem winterWorld"))
+		{
 			m_isWinterMap = ConfigGetInt("CfgSyberia WorldSystem winterWorld") == 1;
 		}
-		else {
+		else
+		{
 			m_isWinterMap = ConfigGetInt("CfgWorlds " + worldName + " winterWorld") == 1;
 		}
-		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem airDayTemperatureMin")) {
+	*/	
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem airDayTemperatureMin"))
+		{
 			m_airDayTemperatureMin = ConfigGetFloat("CfgSyberia WorldSystem airDayTemperatureMin");
 		}
-		else {
+		else
+		{
 			m_airDayTemperatureMin = ConfigGetFloat("CfgWorlds " + worldName + " airDayTemperatureMin");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem airDayTemperatureMax")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem airDayTemperatureMax"))
+		{
 			m_airDayTemperatureMax = ConfigGetFloat("CfgSyberia WorldSystem airDayTemperatureMax");
 		}
-		else {
+		else
+		{
 			m_airDayTemperatureMax = ConfigGetFloat("CfgWorlds " + worldName + " airDayTemperatureMax");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem airNightTemperatureMin")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem airNightTemperatureMin"))
+		{
 			m_airNightTemperatureMin = ConfigGetFloat("CfgSyberia WorldSystem airNightTemperatureMin");
 		}
-		else {
+		else
+		{
 			m_airNightTemperatureMin = ConfigGetFloat("CfgWorlds " + worldName + " airNightTemperatureMin");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem airNightTemperatureMax")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem airNightTemperatureMax"))
+		{
 			m_airNightTemperatureMax = ConfigGetFloat("CfgSyberia WorldSystem airNightTemperatureMax");
 		}
-		else {
+		else
+		{
 			m_airNightTemperatureMax = ConfigGetFloat("CfgWorlds " + worldName + " airNightTemperatureMax");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem clothingHeatIsolationGlobal")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem clothingHeatIsolationGlobal"))
+		{
 			m_clothingHeatIsolationGlobal = ConfigGetFloat("CfgSyberia WorldSystem clothingHeatIsolationGlobal");
 		}
-		else {
+		else
+		{
 			m_clothingHeatIsolationGlobal = ConfigGetFloat("CfgWorlds " + worldName + " clothingHeatIsolationGlobal");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureHighConsumeItemsMod")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureHighConsumeItemsMod"))
+		{
 			m_temperatureHighConsumeItemsMod = ConfigGetFloat("CfgSyberia WorldSystem temperatureHighConsumeItemsMod");
 		}
-		else {
+		else
+		{
 			m_temperatureHighConsumeItemsMod = ConfigGetFloat("CfgWorlds " + worldName + " temperatureHighConsumeItemsMod");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureLowConsumeItemsMod")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureLowConsumeItemsMod"))
+		{
 			m_temperatureLowConsumeItemsMod = ConfigGetFloat("CfgSyberia WorldSystem temperatureLowConsumeItemsMod");
 		}
-		else {
+		else
+		{
 			m_temperatureLowConsumeItemsMod = ConfigGetFloat("CfgWorlds " + worldName + " temperatureLowConsumeItemsMod");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureDrinkPondPenalty")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureDrinkPondPenalty"))
+		{
 			m_temperatureDrinkPondPenalty = ConfigGetFloat("CfgSyberia WorldSystem temperatureDrinkPondPenalty");
 		}
-		else {
+		else
+		{
 			m_temperatureDrinkPondPenalty = ConfigGetFloat("CfgWorlds " + worldName + " temperatureDrinkPondPenalty");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureDrinkWellPenalty")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureDrinkWellPenalty"))
+		{
 			m_temperatureDrinkWellPenalty = ConfigGetFloat("CfgSyberia WorldSystem temperatureDrinkWellPenalty");
 		}
-		else {
+		else
+		{
 			m_temperatureDrinkWellPenalty = ConfigGetFloat("CfgWorlds " + worldName + " temperatureDrinkWellPenalty");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureFillWaterBottleTotal")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureFillWaterBottleTotal"))
+		{
 			m_temperatureFillWaterBottleTotal = ConfigGetFloat("CfgSyberia WorldSystem temperatureFillWaterBottleTotal");
 		}
-		else {
+		else
+		{
 			m_temperatureFillWaterBottleTotal = ConfigGetFloat("CfgWorlds " + worldName + " temperatureFillWaterBottleTotal");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureFillWaterBottleMod")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureFillWaterBottleMod"))
+		{
 			m_temperatureFillWaterBottleMod = ConfigGetFloat("CfgSyberia WorldSystem temperatureFillWaterBottleMod");
 		}
-		else {
+		else
+		{
 			m_temperatureFillWaterBottleMod = ConfigGetFloat("CfgWorlds " + worldName + " temperatureFillWaterBottleMod");
 		}
-	
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureIceDrain")) {
+		
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureIceDrain"))
+		{
 			m_temperatureIceDrain = ConfigGetFloat("CfgSyberia WorldSystem temperatureIceDrain");
 		}
-		else {
+		else
+		{
 			m_temperatureIceDrain = ConfigGetFloat("CfgWorlds " + worldName + " temperatureIceDrain");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureSnowDrain")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureSnowDrain"))
+		{
 			m_temperatureSnowDrain = ConfigGetFloat("CfgSyberia WorldSystem temperatureSnowDrain");
 		}
-		else {
+		else
+		{
 			m_temperatureSnowDrain = ConfigGetFloat("CfgWorlds " + worldName + " temperatureSnowDrain");
 		}
-	
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem additionalTemperatureResistForSurvivalSkill")) {
+		
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem additionalTemperatureResistForSurvivalSkill"))
+		{
 			m_additionalTemperatureResistForSurvivalSkill = ConfigGetFloat("CfgSyberia WorldSystem additionalTemperatureResistForSurvivalSkill");
 		}
-		else {
+		else
+		{
 			m_additionalTemperatureResistForSurvivalSkill = ConfigGetFloat("CfgWorlds " + worldName + " additionalTemperatureResistForSurvivalSkill");
 		}
 			
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem clothingDrenchedHeatDrain")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem clothingDrenchedHeatDrain"))
+		{
 			m_clothingDrenchedHeatDrain = ConfigGetFloat("CfgSyberia WorldSystem clothingDrenchedHeatDrain");
 		}
-		else {
+		else
+		{
 			m_clothingDrenchedHeatDrain = ConfigGetFloat("CfgWorlds " + worldName + " clothingDrenchedHeatDrain");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem clothingWetHeatDrain")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem clothingWetHeatDrain"))
+		{
 			m_clothingWetHeatDrain = ConfigGetFloat("CfgSyberia WorldSystem clothingWetHeatDrain");
 		}
-		else {
+		else
+		{
 			m_clothingWetHeatDrain = ConfigGetFloat("CfgWorlds " + worldName + " clothingWetHeatDrain");
 		}
 		
-		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureHeightReduction")) {
+		if (GetGame().ConfigIsExisting("CfgSyberia WorldSystem temperatureHeightReduction"))
+		{
 			m_temperatureHeightReduction = ConfigGetFloat("CfgSyberia WorldSystem temperatureHeightReduction");
 		}
-		else {
+		else
+		{
 			m_temperatureHeightReduction = ConfigGetFloat("CfgWorlds " + worldName + " temperatureHeightReduction");
 		}
 	}

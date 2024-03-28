@@ -1,47 +1,14 @@
 modded class Environment
 {
-	override protected float GetEnvironmentTemperature()
-	{
-		float temperature = super.GetEnvironmentTemperature();
-	
-		if (IsWinter())
-		{			
-			vector player_pos = m_Player.GetPosition();
-			string surface_type = "";
-			GetGame().SurfaceGetType(player_pos[0], player_pos[2], surface_type);
-			
-			if (surface_type == "nam_seaice" || surface_type == "nam_lakeice_ext") 
-			{
-				temperature += GetSyberiaConfig().m_temperatureIceDrain;
-			}
-			else if (surface_type == "nam_snow") 
-			{
-				temperature += GetSyberiaConfig().m_temperatureSnowDrain;
-			}
-		}
-	
-		return temperature;
-	}
-	
-		override void AddToEnvironmentTemperature(float pTemperature)
+	override void AddToEnvironmentTemperature(float pTemperature)
 	{
 		m_HeatSourceTemp = Math.Max(m_HeatSourceTemp, pTemperature);
-	}
-	
-	override protected bool IsRaining()
-	{
-		return !IsWinter() && super.IsRaining();
 	}
 	
 	override protected float GetTemperatureHeightCorrection()
 	{
 		float temperature_reduction = Math.Max(0, (m_PlayerHeightPos * GetSyberiaConfig().m_temperatureHeightReduction));
 		return temperature_reduction;
-	}
-	
-	bool IsWinter()
-	{
-		return GetSyberiaConfig().m_isWinterMap;
 	}
 	
 	override protected void BodyPartHeatProperties(array<int> pBodyPartIds, float pCoef, out float pHeatComfort, out float pHeat)
@@ -166,8 +133,10 @@ modded class Environment
 		if (item.IsTemperatureVisible())
 		{
 			float itemTemperature = item.GetTemperature();
-			if (itemTemperature > envTemperature) item.AddTemperature( GameConstants.TEMPERATURE_ITEM_HEAT_TRANSFER_COEF * -1.0 );
-			else item.AddTemperature( GameConstants.TEMPERATURE_ITEM_HEAT_TRANSFER_COEF );
+			if (itemTemperature > envTemperature)
+				item.AddTemperature( GameConstants.TEMPERATURE_ITEM_HEAT_TRANSFER_COEF * -1.0 );
+			else
+				item.AddTemperature( GameConstants.TEMPERATURE_ITEM_HEAT_TRANSFER_COEF );
 		}
 		
 		if (!item.GetInventory())

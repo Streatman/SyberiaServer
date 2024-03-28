@@ -5,7 +5,7 @@ modded class ActionSkinning
 	{
 		Object targetObject = action_data.m_Target.GetObject();
 		
-		//Syberia
+		// Syberia
 		float knifeDmgMultiplier = 1;
 		
 		// Mark the body as skinned to forbid another skinning action on it
@@ -23,7 +23,7 @@ modded class ActionSkinning
 		}
 		
 		// clutter cutter removed due to issues with audio it causes when players steps on it.
-		//Object cutter = GetGame().CreateObject( "ClutterCutter2x2", body_pos, false ); // clutter cutter to free space on ground for organs.
+		// Object cutter = GetGame().CreateObject( "ClutterCutter2x2", body_pos, false ); // clutter cutter to free space on ground for organs.
 		
 		knifeDmgMultiplier = targetObject.ConfigGetFloat("knifeDamageModifier");
 		if (knifeDmgMultiplier <= 0)
@@ -31,7 +31,7 @@ modded class ActionSkinning
 			knifeDmgMultiplier = 1;
 		}
 		
-	//	MiscGameplayFunctions.DealAbsoluteDmg(action_data.m_MainItem, UADamageApplied.SKINNING);
+		// MiscGameplayFunctions.DealAbsoluteDmg(action_data.m_MainItem, UADamageApplied.SKINNING);
 		if (action_data.m_MainItem)
 		{
 			float skill = 1 - action_data.m_Player.GetPerkFloatValue(SyberiaPerkType.SYBPERK_HUNTING_TOOLS, 0, 0);
@@ -69,12 +69,10 @@ modded class ActionSkinning
 		
 		PluginLifespan module_lifespan = PluginLifespan.Cast( GetPlugin( PluginLifespan ) );
 		module_lifespan.UpdateBloodyHandsVisibility( action_data.m_Player, true );
-		
-	//	action_data.m_Player.GetSoftSkillsManager().AddSpecialty( m_SpecialtyWeight );
 	}
 	
-//	Spawns an organ defined in the given config
-	ItemBase CreateOrgan( PlayerBase player, vector body_pos, string item_to_spawn, string cfg_skinning_organ_class, ItemBase tool)
+	// Spawns an organ defined in the given config
+	override ItemBase CreateOrgan( PlayerBase player, vector body_pos, string item_to_spawn, string cfg_skinning_organ_class, ItemBase tool)
 	{
 		// Create item from config
 		ItemBase added_item;
@@ -93,34 +91,21 @@ modded class ActionSkinning
 		float meatCountMod = player.GetPerkFloatValue(SyberiaPerkType.SYBPERK_HUNTING_MEAT_COUNT, 0, 0);
 		float quantityMin, quantityMax;
 		float quantityMinCoef, quantityMaxCoef;
-	//	array<float> quant_min_max = new array<float>;
 		array<float> quant_min_max_coef = new array<float>;
 		
-	//	GetGame().ConfigGetFloatArray( cfg_skinning_organ_class + "quantityMinMax", quant_min_max);
 		GetGame().ConfigGetFloatArray( cfg_skinning_organ_class + "quantityMinMaxCoef", quant_min_max_coef);
 		
 		
 		// Read config for quantity value
-	/*	if (quant_min_max.Count() > 0)
-		{
-			float soft_skill_manipulated_value = ( quant_min_max.Get(0)+ quant_min_max.Get(1) ) / 2;
-			float min_quantity = player.GetSoftSkillsManager().AddSpecialtyBonus( soft_skill_manipulated_value, this.GetSpecialtyWeight() );
-			item_quantity = Math.RandomFloat(min_quantity, quant_min_max.Get(1));
-		}*/
-		
 		if (quant_min_max_coef.Count() > 0)		//Steak, Guts, Lard, Bones
 		{
 			quantityMin = Math.Clamp(quant_min_max_coef.Get(0), 0, quant_min_max_coef.Get(1));
 			quantityMax = Math.Clamp(quant_min_max_coef.Get(1), quant_min_max_coef.Get(0), 1);
 			quantityMinCoef = Math.Clamp(quantityMin * 0.2 + meatCountMod, quantityMin * 0.2, quantityMin);
 			quantityMaxCoef = Math.Clamp(quantityMax * 0.3 + meatCountMod, quantityMax * 0.3, quantityMax);
-		//	float coef = Math.RandomFloat(quant_min_max_coef.Get(0), quant_min_max_coef.Get(1));
 			float coef = Math.RandomFloat(quantityMinCoef, quantityMaxCoef);
 			item_quantity = added_item.GetQuantityMax() * coef;
 		}
-		
-	//	if ( GetGame().ConfigGetFloat( cfg_skinning_organ_class + "quantity" ) > 0 )
-	//		item_quantity = g_Game.ConfigGetFloat( cfg_skinning_organ_class + "quantity" );
 		
 		if ( GetGame().ConfigGetFloat( cfg_skinning_organ_class + "quantityCoef" ) > 0 )	//Pelt
 		{
@@ -144,11 +129,10 @@ modded class ActionSkinning
 			added_item.DecreaseHealthCoef( organ_dmg_coef );
 		}
 		
-	//	added_item.InsertAgent(eAgents.SALMONELLA, 1);
 		return added_item;
 	}
 	
-	void SpawnItems(ActionData action_data)
+	override void SpawnItems(ActionData action_data)
 	{
 		EntityAI body = EntityAI.Cast(action_data.m_Target.GetObject());
 		
@@ -230,15 +214,6 @@ modded class ActionSkinning
 						spawn_result.SetHealth01("", "", meatCountMod);
 					}
 					spawn_result.SetTemperature(38);
-					
-					// handle fat/guts from human bodies
-				/*	if ( ( item_to_spawn == "Lard" ) || ( item_to_spawn == "Guts" ) )
-					{
-						if ( body.IsKindOf( "SurvivorBase" ) )
-						{
-							spawn_result.InsertAgent(eAgents.BRAIN, 1);
-						}
-					}*/
 				}
 			}
 		}

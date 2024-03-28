@@ -297,7 +297,7 @@ modded class PlayerBase
 		{
 			if (IsGhostBody())
 			{
-				SetPosition("0 0 0");
+				SetPosition("0 2 0");
 				SetHealth01("GlobalHealth","Health",1);
 				SetHealth01("","",1);
 			}
@@ -430,7 +430,7 @@ modded class PlayerBase
 		float landDiff;
 		pos2d[1] = 0;
 		
-	/*	if (pluginZones.m_config.m_customZones)
+		if (pluginZones.m_config.m_customZones)
 		{
 			foreach (ref ZoneDefinition zone : pluginZones.m_config.m_customZones)
 			{
@@ -458,7 +458,7 @@ modded class PlayerBase
 		{
 			currentZones.Insert(pluginZones.m_config.m_defaultZone);
 		}
-	*/	
+		
 		int nullCheckIndex = 0;
 		ref ZoneImplementation zoneImpl;
 		while (nullCheckIndex < m_zones.Count())
@@ -672,12 +672,12 @@ modded class PlayerBase
 			}
 		}
 		
-		if (m_sybstats.m_radiationSickness > 0)
+		if (m_sybstats.m_radiationSickness > 1)
 		{
 			DecreaseHealth("", "Health", GetSyberiaConfig().m_radiationHealthDamage[m_sybstats.m_radiationSickness - 1]);
 		}
 		
-		if (m_sybstats.m_radiationSickness >= 2 && Math.RandomFloat01() < 0.05)
+		if (m_sybstats.m_radiationSickness >= 3 && Math.RandomFloat01() < 0.05)
 		{
 			// Vomit
 			SymptomBase symptom2 = GetSymptomManager().QueueUpPrimarySymptom(SymptomIDs.SYMPTOM_VOMIT);				
@@ -687,7 +687,7 @@ modded class PlayerBase
 				
 				waterDrain = GetSyberiaConfig().m_stomatchpoisonWaterDrainFromVomit[2];
 				energyDrain = GetSyberiaConfig().m_stomatchpoisonEnergyDrainFromVomit[2];
-	
+				
 				if (GetStatWater().Get() > waterDrain)
 					GetStatWater().Add(-1 * waterDrain);
 				
@@ -696,7 +696,7 @@ modded class PlayerBase
 			}
 		}
 		
-		if (m_sybstats.m_radiationSickness == 3)
+		if (m_sybstats.m_radiationSickness == 4)
 		{
 			if (Math.RandomFloat01() < 0.1)
 			{
@@ -867,7 +867,7 @@ modded class PlayerBase
 		SyberiaSleepingLevel sleepingLevel = SyberiaSleepingLevel.SYBSL_NONE;		
 		if (GetEmoteManager() && GetEmoteManager().IsPlayerSleeping())
 		{
-			float heatValue = GetStatHeatComfort().Get();
+			float heatValue = GetStatHeatComfort().Get();//temperature = GetStatTemperature().Get();//
 			if (IsSicknesOrInjured())
 			{
 				sleepingLevel = SyberiaSleepingLevel.SYBSL_SICK;
@@ -876,11 +876,11 @@ modded class PlayerBase
 			{
 				sleepingLevel = SyberiaSleepingLevel.SYBSL_ENERGED;
 			}
-			else if (heatValue < PlayerConstants.THRESHOLD_HEAT_COMFORT_MINUS_WARNING)
+			else if (heatValue < PlayerConstants.THRESHOLD_HEAT_COMFORT_MINUS_WARNING)//(temperature < PlayerConstants.THRESHOLD_TEMPERATURE_MINUS_WARNING)//
 			{
 				sleepingLevel = SyberiaSleepingLevel.SYBSL_COLD;
 			}
-			else if (heatValue > PlayerConstants.THRESHOLD_HEAT_COMFORT_PLUS_CRITICAL)
+			else if (heatValue > PlayerConstants.THRESHOLD_HEAT_COMFORT_PLUS_CRITICAL)//(temperature > PlayerConstants.THRESHOLD_TEMPERATURE_PLUS_CRITICAL)//
 			{
 				sleepingLevel = SyberiaSleepingLevel.SYBSL_HOT;
 			}
@@ -951,20 +951,116 @@ modded class PlayerBase
 	{
 		float perkMod = (1.0 - GetPerkFloatValue(SyberiaPerkType.SYBPERK_SURVIVAL_FROST_RESIST, 0, 0));
 		float currHeatComf = GetStatHeatComfort().Get();
-		if (currHeatComf < -0.5)
+		float influenzaChanceLow = GetSyberiaConfig().m_influenzaApplyOnColdWarnChance;
+		float influenzaChanceHigh = GetSyberiaConfig().m_influenzaApplyOnColdCritChance;
+		
+		if (currHeatComf < PlayerConstants.THRESHOLD_HEAT_COMFORT_MINUS_EMPTY)
 		{
-			if (Math.RandomFloat01() < GetSyberiaConfig().m_influenzaApplyOnColdCritChance * perkMod)
+			if (Math.RandomFloat01() < influenzaChanceHigh * perkMod)
 			{
 				AddInfluenza();
 			}
 		}
-		else if (currHeatComf < -0.9)
+		else if (currHeatComf < PlayerConstants.THRESHOLD_HEAT_COMFORT_MINUS_CRITICAL)
 		{
-			if (Math.RandomFloat01() < GetSyberiaConfig().m_influenzaApplyOnColdWarnChance * perkMod)
+			if (Math.RandomFloat01() < influenzaChanceLow * perkMod)
 			{
 				AddInfluenza();
 			}
 		}
+		
+	/*	float temperature = GetStatTemperature().Get();
+		float value_normalized;
+		float influenzaChance;
+		
+		if (temperature < PlayerConstants.THRESHOLD_TEMPERATURE_MINUS_EMPTY)//(currHeatComf < -0.5)//
+		{
+			influenzaChance = influenzaChanceHigh
+			
+			if ( GetStatWet().Get() == 1 )
+			{
+				if (Math.RandomFloat01() < influenzaChance * 2 * perkMod)
+				{
+					AddInfluenza();
+				}
+			}
+			else if (Math.RandomFloat01() < influenzaChance * perkMod)
+			{
+				AddInfluenza();
+			}
+		}
+		else if (temperature < PlayerConstants.THRESHOLD_TEMPERATURE_MINUS_CRITICAL)//(currHeatComf < -0.9)//
+		{
+			value_normalized = Math.InverseLerp(PlayerConstants.THRESHOLD_TEMPERATURE_MINUS_CRITICAL, PlayerConstants.THRESHOLD_TEMPERATURE_MINUS_EMPTY, temperature);
+			value_normalized = Math.Clamp(value_normalized, 0, 1);
+			influenzaChance = Math.Lerp(influenzaChanceLow, influenzaChanceHigh, value_normalized);
+			
+			if ( GetStatWet().Get() == 1 )
+			{
+				if (Math.RandomFloat01() < influenzaChance * 2 * perkMod)
+				{
+					AddInfluenza();
+				}
+			}
+			else if (Math.RandomFloat01() < influenzaChance * perkMod)
+			{
+				AddInfluenza();
+			}
+		}
+		else if (temperature < PlayerConstants.THRESHOLD_TEMPERATURE_MINUS_WARNING)//(currHeatComf < -0.9)//
+		{
+			value_normalized = Math.InverseLerp(PlayerConstants.THRESHOLD_TEMPERATURE_MINUS_WARNING, PlayerConstants.THRESHOLD_TEMPERATURE_MINUS_CRITICAL, temperature);
+			value_normalized = Math.Clamp(value_normalized, 0, 1);
+			influenzaChance = Math.Lerp(0, influenzaChanceLow, value_normalized);
+			
+			if ( GetStatWet().Get() == 1 )
+			{
+				if (Math.RandomFloat01() < influenzaChance * perkMod)
+				{
+					AddInfluenza();
+				}
+			}
+		}
+		else if (temperature > PlayerConstants.THRESHOLD_TEMPERATURE_PLUS_EMPTY)
+		{
+			influenzaChance = influenzaChanceHigh
+			
+			if ( GetStatWet().Get() == 1 )
+			{
+				if (Math.RandomFloat01() < influenzaChance * perkMod)
+				{
+					AddInfluenza();
+				}
+			}
+		}
+		else if (temperature > PlayerConstants.THRESHOLD_TEMPERATURE_PLUS_CRITICAL)
+		{
+			value_normalized = Math.InverseLerp(PlayerConstants.THRESHOLD_TEMPERATURE_PLUS_CRITICAL, PlayerConstants.THRESHOLD_TEMPERATURE_PLUS_EMPTY, temperature);
+			value_normalized = Math.Clamp(value_normalized, 0, 1);
+			influenzaChance = Math.Lerp(influenzaChanceLow, influenzaChanceHigh, value_normalized);
+			
+			if ( GetStatWet().Get() == 1 )
+			{
+				if (Math.RandomFloat01() < influenzaChance * perkMod)
+				{
+					AddInfluenza();
+				}
+			}
+		}
+		else if (temperature > PlayerConstants.THRESHOLD_TEMPERATURE_PLUS_WARNING)
+		{
+			value_normalized = Math.InverseLerp(PlayerConstants.THRESHOLD_TEMPERATURE_PLUS_WARNING, PlayerConstants.THRESHOLD_TEMPERATURE_PLUS_CRITICAL, temperature);
+			value_normalized = Math.Clamp(value_normalized, 0, 1);
+			influenzaChance = Math.Lerp(0, influenzaChanceLow, value_normalized);
+			
+			if ( GetStatWet().Get() == 1 )
+			{
+				if (Math.RandomFloat01() < influenzaChance * perkMod)
+				{
+					AddInfluenza();
+				}
+			}
+		}*/
 	}
 	
 	void SetStomatchPoison(int level, float time)
@@ -1147,7 +1243,8 @@ modded class PlayerBase
 		bool hasBrainAgents = false;
 		if (source)
 		{
-			ApplyAdvMedicineItem(source.GetType(), amount);
+			ApplyAdvMedicineItem("CfgVehicles " + source.GetType(), amount);
+			float m_temperatureBuff;
 			
 			if (source.ContainsAgent(eAgents.BRAIN))
 			{
@@ -1189,21 +1286,15 @@ modded class PlayerBase
 				{
 					SetStomatchPoison(GetSyberiaConfig().m_stomatchpoisonGasoline[0], GetSyberiaConfig().m_stomatchpoisonGasoline[1] * amount);
 				}
+				
+				ApplyAdvMedicineItem("CfgLiquidDefinitions " + liquidClassName, amount);
 			}
 			
 			if (source.IsTemperatureVisible())
 			{
 				float temperature = source.GetTemperature();
-				if (temperature > 40)
-				{
-					temperature = (Math.Clamp(temperature, 40.0, 80.0) - 40.0) / 40.0;
-					GetStatHeatBuffer().Add(temperature * amount * GetSyberiaConfig().m_temperatureHighConsumeItemsMod);
-				}
-				else if (temperature < 20)
-				{
-					temperature = (20.0 - Math.Clamp(temperature, -20.0, 20.0)) / 40.0;
-					GetStatHeatBuffer().Add(temperature * amount * GetSyberiaConfig().m_temperatureLowConsumeItemsMod);
-				}
+				SetHeatBuffBasedOnConsumedItem(temperature, amount);
+				DamagePlayerIfConsumedItemToHot(temperature);
 			}
 		}
 		
@@ -1214,7 +1305,9 @@ modded class PlayerBase
 		
 		if (consume_type == EConsumeType.ENVIRO_POND)
 		{
-			GetStatHeatBuffer().Add(temperature * amount * GetSyberiaConfig().m_temperatureDrinkPondPenalty);
+			float temperaturePond = GetSyberiaConfig().m_temperatureFillWaterBottleTotal;
+			m_temperatureBuff = (20.0 - temperaturePond) / 40.0;
+			GetStatHeatBuffer().Add(m_temperatureBuff * amount * GetSyberiaConfig().m_temperatureDrinkPondPenalty);
 			
 			if (Math.RandomFloat01() < GetSyberiaConfig().m_stomatchpoisonChanceDrinkPond)
 			{
@@ -1224,14 +1317,16 @@ modded class PlayerBase
 		
 		if (consume_type == EConsumeType.ENVIRO_WELL)
 		{
-			GetStatHeatBuffer().Add(temperature * amount * GetSyberiaConfig().m_temperatureDrinkWellPenalty);
+			float temperatureWell = 4;
+			m_temperatureBuff = (20.0 - temperatureWell) / 40.0;
+			GetStatHeatBuffer().Add(m_temperatureBuff * amount * GetSyberiaConfig().m_temperatureDrinkWellPenalty);
 			
 			if (Math.RandomFloat01() < GetSyberiaConfig().m_stomatchpoisonChanceDrinkWell)
 			{
 				SetStomatchPoison(GetSyberiaConfig().m_stomatchpoisonDrinkWell[0], GetSyberiaConfig().m_stomatchpoisonDrinkWell[1] * amount);
 			}
 		}
-	
+		
 		bool result = super.Consume(source, amount, consume_type);
 		
 		if (result)
@@ -1261,6 +1356,20 @@ modded class PlayerBase
 		return result;
 	}
 	
+	private void SetHeatBuffBasedOnConsumedItem(float itemConsumedTemperature, float amount)
+	{		
+		if (itemConsumedTemperature > 40)
+		{
+			float m_temperatureBuff = (Math.Clamp(itemConsumedTemperature, 40.0, 80.0) - 40.0) / 40.0;
+			GetStatHeatBuffer().Add(m_temperatureBuff * amount * GetSyberiaConfig().m_temperatureHighConsumeItemsMod);
+		}
+		else if (itemConsumedTemperature < 20)
+		{
+			m_temperatureBuff = (20.0 - Math.Clamp(itemConsumedTemperature, -20.0, 20.0)) / 40.0;
+			GetStatHeatBuffer().Add(m_temperatureBuff * amount * GetSyberiaConfig().m_temperatureLowConsumeItemsMod);
+		}
+	}
+	
 	private float ProcessOverdosedPostinc(float time, float overdoseInc)
 	{
 		if (time > 3000) return overdoseInc * 5.0;
@@ -1285,7 +1394,7 @@ modded class PlayerBase
 //	medAdrenalinLevel, medAdrenalinTimeSec
 	void ApplyAdvMedicineItem(string classname, float amount)
 	{
-		float overdosedIncrement = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " overdosedIncrement" );
+		float overdosedIncrement = GetGame().ConfigGetFloat( classname + " overdosedIncrement" );
 		float OD_PainkillerLevel;
 		float OD_StomatchhealLevel;
 		float OD_AntibioticLevel;
@@ -1297,11 +1406,11 @@ modded class PlayerBase
 		float OD_RadprotectLevel;
 		float OD_AntidepLevel;
 		
-		int medPainkillerLevel = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medPainkillerLevel" );
+		int medPainkillerLevel = GetGame().ConfigGetInt( classname + " medPainkillerLevel" );
 		if (medPainkillerLevel > 0)
 		{
 			OD_PainkillerLevel = ProcessOverdosedPostinc(m_painkillerTime, overdosedIncrement);
-			float medPainkillerTimeSec = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medPainkillerTimeSec" );
+			float medPainkillerTimeSec = GetGame().ConfigGetFloat( classname + " medPainkillerTimeSec" );
 			if (medPainkillerLevel >= m_sybstats.m_painkillerEffect && medPainkillerTimeSec > 0)
 			{
 				m_sybstats.m_painkillerEffect = medPainkillerLevel;
@@ -1309,11 +1418,11 @@ modded class PlayerBase
 			}
 		}
 		
-		int medStomatchhealLevel = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medStomatchhealLevel" );
+		int medStomatchhealLevel = GetGame().ConfigGetInt( classname + " medStomatchhealLevel" );
 		if (medStomatchhealLevel > 0)
 		{
 			OD_StomatchhealLevel = ProcessOverdosedPostinc(m_stomatchhealTimer, overdosedIncrement);
-			float medStomatchhealTimeSec = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medStomatchhealTimeSec" );
+			float medStomatchhealTimeSec = GetGame().ConfigGetFloat( classname + " medStomatchhealTimeSec" );
 			if (medStomatchhealLevel >= m_sybstats.m_stomatchhealLevel && medStomatchhealTimeSec > 0)
 			{
 				m_sybstats.m_stomatchhealLevel = medStomatchhealLevel;
@@ -1321,12 +1430,12 @@ modded class PlayerBase
 			}
 		}
 		
-		int medAntibioticLevel = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medAntibioticLevel" );
+		int medAntibioticLevel = GetGame().ConfigGetInt( classname + " medAntibioticLevel" );
 		if (medAntibioticLevel > 0)
 		{
 			OD_AntibioticLevel = ProcessOverdosedPostinc(m_antibioticsTimer, overdosedIncrement);
-			float medAntibioticsTimeSec = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medAntibioticsTimeSec" );
-			float medAntibioticsStrength = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medAntibioticsStrength" );
+			float medAntibioticsTimeSec = GetGame().ConfigGetFloat( classname + " medAntibioticsTimeSec" );
+			float medAntibioticsStrength = GetGame().ConfigGetFloat( classname + " medAntibioticsStrength" );
 			if (medAntibioticLevel >= m_sybstats.m_antibioticsLevel && medAntibioticsTimeSec > 0 && medAntibioticsStrength > 0)
 			{
 				m_sybstats.m_antibioticsLevel = medAntibioticLevel;
@@ -1335,20 +1444,20 @@ modded class PlayerBase
 			}
 		}
 		
-		int medHemologicShock = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medHemologicShock" );
+		int medHemologicShock = GetGame().ConfigGetInt( classname + " medHemologicShock" );
 		if (medHemologicShock > 0)
 		{
 		//	m_hemologicShock = true;
 			OD_HemologicShock = overdosedIncrement;
 		}
 		
-		int medRemoveSepsis = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medRemoveSepsis" );
+		int medRemoveSepsis = GetGame().ConfigGetInt( classname + " medRemoveSepsis" );
 		if (medRemoveSepsis > 0)
 		{
 			m_BleedingManagerServer.SetBloodInfection(false);
 		}
 		
-		int medRemoveZVirus = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medRemoveZVirus" );
+		int medRemoveZVirus = GetGame().ConfigGetInt( classname + " medRemoveZVirus" );
 		if (medRemoveZVirus > 0)
 		{
 			if (medRemoveZVirus <= 1)
@@ -1368,64 +1477,64 @@ modded class PlayerBase
 			m_BleedingManagerServer.SetZVirus(false);
 		}
 		
-		int medBloodStop = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medBloodStop" );
+		int medBloodStop = GetGame().ConfigGetInt( classname + " medBloodStop" );
 		if (medBloodStop > 0)
 		{
 			m_BleedingManagerServer.ApplyBandage(medBloodStop);
 		}
 		
-		int medConcussionHeal = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medConcussionHeal" );
+		int medConcussionHeal = GetGame().ConfigGetInt( classname + " medConcussionHeal" );
 		if (medConcussionHeal > 0)
 		{
 			m_BleedingManagerServer.SetConcussionHit(false);
 		}
 		
-		int medBloodHemostatic = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medBloodHemostatic" );
+		int medBloodHemostatic = GetGame().ConfigGetInt( classname + " medBloodHemostatic" );
 		if (medBloodHemostatic > 0)
 		{
 			m_sybstats.m_bloodHemostaticEffect = true;
-			float medBloodHemostaticTimeSec = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medBloodHemostaticTimeSec" );
+			float medBloodHemostaticTimeSec = GetGame().ConfigGetFloat( classname + " medBloodHemostaticTimeSec" );
 			OD_BloodHemostatic = ProcessOverdosedPostinc(m_bloodHemostaticTimer, overdosedIncrement);
 			m_bloodHemostaticTimer = m_bloodHemostaticTimer + (medBloodHemostaticTimeSec * amount);
 		}
 		
-		int medBloodHematopoiesis = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medBloodHematopoiesis" );
+		int medBloodHematopoiesis = GetGame().ConfigGetInt( classname + " medBloodHematopoiesis" );
 		if (medBloodHematopoiesis > 0)
 		{
 			m_sybstats.m_hematopoiesisEffect = true;
-			float medBloodHematopoiesisTimeSec = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medBloodHematopoiesisTimeSec" );
+			float medBloodHematopoiesisTimeSec = GetGame().ConfigGetFloat( classname + " medBloodHematopoiesisTimeSec" );
 			OD_BloodHematopoiesis = ProcessOverdosedPostinc(m_hematopoiesisTimer, overdosedIncrement);
 			m_hematopoiesisTimer = m_hematopoiesisTimer + (medBloodHematopoiesisTimeSec * amount);
 		}
 		
-		int medHematomaHeal = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medHematomaHeal" );
+		int medHematomaHeal = GetGame().ConfigGetInt( classname + " medHematomaHeal" );
 		if (medHematomaHeal > 0)
 		{
 			m_sybstats.m_salveEffect = true;
-			float medHematomaHealTimeSec = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medHematomaHealTimeSec" );
+			float medHematomaHealTimeSec = GetGame().ConfigGetFloat( classname + " medHematomaHealTimeSec" );
 			OD_HematomaHeal = ProcessOverdosedPostinc(m_salveEffectTimer, overdosedIncrement);
 			m_salveEffectTimer = m_salveEffectTimer + (medHematomaHealTimeSec * amount);
 		}
 		
-		int medAdrenalinLevel = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medAdrenalinLevel" );
+		int medAdrenalinLevel = GetGame().ConfigGetInt( classname + " medAdrenalinLevel" );
 		if (medAdrenalinLevel > 0)
 		{
 			OD_AdrenalinLevel = ProcessOverdosedPostinc(m_adrenalinEffectTimer, overdosedIncrement);
 			if (m_sybstats.m_adrenalinEffect <= medAdrenalinLevel)
 			{
 				m_sybstats.m_adrenalinEffect = medAdrenalinLevel;
-				float medAdrenalinTimeSec = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medAdrenalinTimeSec" );
+				float medAdrenalinTimeSec = GetGame().ConfigGetFloat( classname + " medAdrenalinTimeSec" );
 				m_adrenalinEffectTimer = m_adrenalinEffectTimer + (medAdrenalinTimeSec * amount);
 			}
 			
 			GetStaminaHandler().SetStamina( GetStaminaHandler().GetStaminaMax() );
 		}
 		
-		int medRadprotectLevel = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medRadioprotectionLevel" );
+		int medRadprotectLevel = GetGame().ConfigGetInt( classname + " medRadioprotectionLevel" );
 		if (medRadprotectLevel > 0)
 		{
 			OD_RadprotectLevel = ProcessOverdosedPostinc(m_radioprotectionTimer, overdosedIncrement);
-			float medRadprotectTimeSec = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medRadioprotectionTimer" );
+			float medRadprotectTimeSec = GetGame().ConfigGetFloat( classname + " medRadioprotectionTimer" );
 			if (medRadprotectLevel >= m_sybstats.m_radioprotectionLevel && medRadprotectTimeSec > 0)
 			{
 				m_sybstats.m_radioprotectionLevel = medRadprotectLevel;
@@ -1433,11 +1542,11 @@ modded class PlayerBase
 			}
 		}
 		
-		int medAntidepLevel = GetGame().ConfigGetInt( "CfgVehicles " + classname + " medAntidepresantLevel" );
+		int medAntidepLevel = GetGame().ConfigGetInt( classname + " medAntidepresantLevel" );
 		if (medAntidepLevel > 0)
 		{
 			OD_AntidepLevel = ProcessOverdosedPostinc(m_antidepresantTimer, overdosedIncrement);
-			float medAntidepTimeSec = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medAntidepresantTimer" );
+			float medAntidepTimeSec = GetGame().ConfigGetFloat( classname + " medAntidepresantTimer" );
 			if (medAntidepLevel >= m_sybstats.m_antidepresantLevel && medAntidepTimeSec > 0)
 			{
 				m_sybstats.m_antidepresantLevel = medAntidepLevel;
@@ -1445,16 +1554,16 @@ modded class PlayerBase
 			}
 		}
 		
-		float medRadiationIncrement = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medRadiationIncrement" );
+		float medRadiationIncrement = GetGame().ConfigGetFloat( classname + " medRadiationIncrement" );
 		if (medRadiationIncrement != 0)
 		{
 			m_radiationDose = Math.Max(0, m_radiationDose + medRadiationIncrement);
 		}
 		
-		float medMindDegradationForce = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medMindDegradationForce" );
+		float medMindDegradationForce = GetGame().ConfigGetFloat( classname + " medMindDegradationForce" );
 		if (medMindDegradationForce > 0)
 		{
-			float medMindDegradationTime = GetGame().ConfigGetFloat( "CfgVehicles " + classname + " medMindDegradationTime" );
+			float medMindDegradationTime = GetGame().ConfigGetFloat( classname + " medMindDegradationTime" );
 			if (medMindDegradationTime > 0)
 			{
 				AddMindDegradation(medMindDegradationForce, medMindDegradationTime);
@@ -1686,7 +1795,7 @@ modded class PlayerBase
 		if (m_sybstats.m_sepsis > 0)
 		{
 			m_sepsisTime = m_sepsisTime + (deltaTime * GetPerkFloatValue(SyberiaPerkType.SYBPERK_IMMUNITY_SEPSIS_TIME, 1, 1));
-						
+			
 			if (m_sepsisTime > GetSyberiaConfig().m_sepsisStage1TimeSec)
 			{
 				if (m_sybstats.m_sepsis == 1)
@@ -2237,7 +2346,11 @@ modded class PlayerBase
 	void OnRadiationDoseChanged()
 	{
 		int newRadLevel = 0;
-		if (m_radiationDose > GetSyberiaConfig().m_radiationLevels[2])
+		if (m_radiationDose > GetSyberiaConfig().m_radiationLevels[3])
+		{
+			newRadLevel = 4;
+		}
+		else if (m_radiationDose > GetSyberiaConfig().m_radiationLevels[2])
 		{
 			newRadLevel = 3;
 		}
