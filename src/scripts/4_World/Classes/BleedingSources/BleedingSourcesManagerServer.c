@@ -341,14 +341,9 @@ modded class BleedingSourcesManagerServer
 			}
 			else if (Math.RandomFloat01() < zedHematomaChance)
 			{
-				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.2) )
+				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.15) )
 				{
 					AddHematomaHit();
-					if (zone == "Head" && Math.RandomFloat01() < 0.3 && Math.RandomFloat01() > HeadProtectionMelee)
-					{
-						SetConcussionHit(true, false);
-					}
-					
 					if (m_Player.IsFaceBlocked(true))
 					{
 						zvirusInfectionChance = zvirusInfectionChance * 0.5;
@@ -358,12 +353,12 @@ modded class BleedingSourcesManagerServer
 			
 			if (Math.RandomFloat01() < zvirusInfectionChance)
 			{
-				SetZVirus(true);
+			//	SetZVirus(true);
 			}
 			
 			if (!blockZedDamage && Math.RandomFloat01() < GetSyberiaConfig().m_bleedingKnifehitZombieChance)
 			{
-				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.2) )
+				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.4) )
 				{
 					AddKnifeHit();
 					if (Math.RandomFloat01() < GetSyberiaConfig().m_sepsisZombieHitChance && m_Player.GetSybStats().m_antibioticsLevel < 3)
@@ -372,8 +367,7 @@ modded class BleedingSourcesManagerServer
 					}
 				}
 			}
-			
-			if (Math.RandomFloat01() < GetSyberiaConfig().m_concussionZombieHitChance && Math.RandomFloat01() > HeadProtectionMelee)
+			if (zone == "Head" && Math.RandomFloat01() < GetSyberiaConfig().m_concussionZombieHitChance && Math.RandomFloat01() > HeadProtectionMelee)
 			{
 				if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.2) )
 				{
@@ -446,39 +440,50 @@ modded class BleedingSourcesManagerServer
 			}
 			else if (!blockMeleeDamage)
 			{
-				if (bleed_threshold >= Math.RandomFloat01())
+				if ( bleed_threshold >= Math.RandomFloat01() )
 				{
 					if ( !source.IsAnimal() && (ammo.Contains("_Heavy") || Math.RandomFloat01() >= 0.4) )
 					{
 						if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.5) )
 						{
-							AddKnifeHit();
-							if (zone == "Torso" && Math.RandomFloat01() < GetSyberiaConfig().m_visceraKnifehitTorsoChance)
+							if ( bleed_threshold > 0.2 )
 							{
-								AddVisceraHit();
+								AddKnifeHit();
+								if (zone == "Torso" && Math.RandomFloat01() < GetSyberiaConfig().m_visceraKnifehitTorsoChance)
+								{
+									AddVisceraHit();
+								}
+							}
+							else AttemptAddBleedingSource(component);
+							if (Math.RandomFloat01() < GetSyberiaConfig().m_sepsisKnifeHitChance && m_Player.GetSybStats().m_antibioticsLevel < 3)
+							{
+								SetBloodInfection(true);
 							}
 						}
 					}
 					else if (source.IsAnimal() && Math.RandomFloat01() <= 0.25) 
 					{
-						AddKnifeHit();
+						if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.5) )
+						{
+							AddKnifeHit();
+							if (Math.RandomFloat01() < GetSyberiaConfig().m_sepsisKnifeHitChance && m_Player.GetSybStats().m_antibioticsLevel < 3)
+							{
+								SetBloodInfection(true);
+							}
+						}
 					}
-					else
+					else if ( !m_MeleeFightLogic.IsInBlock() || (m_MeleeFightLogic.IsInBlock() && Math.RandomFloat01() < 0.5) )
 					{
 						AttemptAddBleedingSource(component);
-					}
-					
-					if (Math.RandomFloat01() < GetSyberiaConfig().m_sepsisKnifeHitChance && m_Player.GetSybStats().m_antibioticsLevel < 3)
-					{
-						SetBloodInfection(true);
+						if (Math.RandomFloat01() < GetSyberiaConfig().m_sepsisKnifeHitChance && m_Player.GetSybStats().m_antibioticsLevel < 3)
+						{
+							SetBloodInfection(true);
+						}
 					}
 				}
-				else
+				else if (Math.RandomFloat01() < GetSyberiaConfig().m_hematomaPlayerhandsHitChance)
 				{
-					if (Math.RandomFloat01() < GetSyberiaConfig().m_hematomaPlayerhandsHitChance)
-					{
-						AddHematomaHit();
-					}
+					AddHematomaHit();
 				}
 			}
 		}
@@ -490,6 +495,7 @@ modded class BleedingSourcesManagerServer
 			float bulletWeight = GetGame().ConfigGetFloat( "CfgAmmo " + ammo + " weight" );
 			float injectModifier = (bulletSpeed * bulletCaliber * bulletWeight * distanceMod) * GetSyberiaConfig().m_bodyGuardModifier;
 			
+			bool isBulletStopped = false;
 			if ( zone == "Head" || zone == "Brain" )
 			{
 				if ( HeadProtectionProjectile < injectModifier )
@@ -497,11 +503,9 @@ modded class BleedingSourcesManagerServer
 					SetConcussionHit(true);
 				}
 			}
-			
-			bool isBulletStopped = false;
 			if ( zone == "Torso" )
 			{
-				if (TorsoProtectionProjectile > injectModifier || ArmProtectionProjectile > injectModifier )
+				if ( TorsoProtectionProjectile > injectModifier || ArmProtectionProjectile > injectModifier )
 				{
 					isBulletStopped = true;
 				}
