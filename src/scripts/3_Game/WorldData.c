@@ -11,13 +11,10 @@ modded class WorldData
 		m_sybTimer = 0;
 		
 		if (IsDayTime())
-		{
 			m_airCurrentTemperature = Math.Lerp(GetSyberiaConfig().m_airDayTemperatureMin, GetSyberiaConfig().m_airDayTemperatureMax, Math.RandomFloat01());
-		}
+		
 		else
-		{
 			m_airCurrentTemperature = Math.Lerp(GetSyberiaConfig().m_airNightTemperatureMin, GetSyberiaConfig().m_airNightTemperatureMax, Math.RandomFloat01());
-		}
 	}
 	
 	bool IsDayTime()
@@ -42,13 +39,10 @@ modded class WorldData
 			
 			float randShift = Math.RandomFloat01() - 0.5;
 			if ( IsDayTime() )
-			{	// day
 				m_airCurrentTemperature = Math.Clamp(m_airCurrentTemperature + randShift, GetSyberiaConfig().m_airDayTemperatureMin, GetSyberiaConfig().m_airDayTemperatureMax);
-			}
+			
 			else
-			{	// night
 				m_airCurrentTemperature = Math.Clamp(m_airCurrentTemperature + randShift, GetSyberiaConfig().m_airNightTemperatureMin, GetSyberiaConfig().m_airNightTemperatureMax);
-			}
 		}
 	}
 	

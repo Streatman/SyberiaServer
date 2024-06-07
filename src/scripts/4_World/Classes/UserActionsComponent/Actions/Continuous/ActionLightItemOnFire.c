@@ -22,10 +22,7 @@ modded class ActionLightItemOnFire
 			
 		if (target_item.IsInherited(Roadflare) || item.IsInherited(Blowtorch) || item.IsInherited(Roadflare))
 			chance = chance * 2;
-		#ifdef Molotov
-		if ( item.IsInherited(Molotov) )
-			chance = 1.0;
-		#endif
+		
 		if ( target_item.IsInherited(FireworksLauncher) )
 			chance = 1.0;
 		
@@ -46,10 +43,7 @@ modded class ActionLightItemOnFire
 		{
 			fire_source_item.OnIgnitedTarget( ignited_item );
 			ignited_item.OnIgnitedThis( fire_source_item );
-			#ifdef Molotov
-			if ( item.IsInherited(Molotov) )
-				action_data.m_Player.AddExperienceOnIgniteFireplace(0);
-			#endif
+			
 			if ( target_item.IsInherited(FireworksLauncher) )
 				action_data.m_Player.AddExperienceOnIgniteFireplace(0);
 			

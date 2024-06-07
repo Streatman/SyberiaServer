@@ -5,12 +5,12 @@ modded class Environment
 		m_HeatSourceTemp = Math.Max(m_HeatSourceTemp, pTemperature);
 	}
 	
-	override protected float GetTemperatureHeightCorrection()
+/*	override protected float GetTemperatureHeightCorrection()
 	{
 		float temperature_reduction = Math.Max(0, (m_PlayerHeightPos * GetSyberiaConfig().m_temperatureHeightReduction));
 		return temperature_reduction;
 	}
-	
+	*/
 	override protected void BodyPartHeatProperties(array<int> pBodyPartIds, float pCoef, out float pHeatComfort, out float pHeat)
 	{
 		int attCount;
